@@ -1,149 +1,59 @@
 
-/*
-sm = (function (){
-    var states = [
-	{
-		'name':'working',
-		'initial':true,
-		'events':{
-			'bored':'coffee',
-			'call_for_meeting':'meeting',
-		}
-	},
-	{
-		'name':'coffee',
-		'events':{
-			'break_over':'working',
-			'call_for_meeting':'meeting'
-		}
-	},
-	{
-		'name':'meeting',
-		'events':{
-			'meetings_over':'working'
-		}
-	},
-    ];
-    console.log(states);
-	this.states = states;
-	this.indexes = {}; //just for convinience
-	for( var i = 0; i< states.length; i++){
-		this.indexes[states[i].name] = i;
-		if (this.states[i].initial){
-			this.currentState = this.states[i];
-		}
-	}
-	this.consumeEvent = function(e){
-		if(this.currentState.events[e]){
-			this.currentState = this.states[this.indexes[this.currentState.events[e]]] ;
-		}
-	}
-	this.getStatus = function(){
-		return this.currentState.name;
-	}
-    
-    return{
-        consumeEvent:consumeEvent,
-        getStatus:getStatus
-    }
-}());
 
-
-function doMoreStuff(sm) {
-
-
-
-//sm = new StateMachine();
-sm.getStatus(); // will return 'working'
-
-sm.consumeEvent('bored');
-console.log(sm.getStatus()); // I went for coffee
-  console.log("got here");
-sm.consumeEvent('call_for_meeting');
-sm.getStatus(); //will return 'meeting'
- 
-sm.consumeEvent('bored'); //doesn't matter how boring a meeting can be...
-sm.getStatus(); //will still return 'meeting'
- 
-sm.consumeEvent('meetings_over')
-sm.getStatus(); // 'working'
-}
-*/
-
-//console.log(module1.export1);
-
-
-var list = {
-    
-    'tasks':[
-
-                {
-                    'titel':'pak drie aardappelen en leg ze op het kleed.',
-                    'code':{
-                        'functionName':'markGroupForRepositioningToEndAreas',
-                        'functionArgs':{
-                                            'group':'[potato1, potato2, potato3]',
-                                            'endareas':'[12,12,12]'                                        
-                                        }
-                                                
-                    }
-                }, 
-                {
-                    'titel':'pak een aardappelschilmes.'
-                },
-                {
-                    'titel':'schil de aardappelen.'
-                }
-
-            ]
-           }
-
-
-
-console.log(taskList.feed(list));
-if (taskList.isDone()) {
-    taskList.next();
-}
-if (taskList.isDone()) {
-    taskList.next();
-}
-if (taskList.isDone()) {
-    taskList.next();
-}if (taskList.isDone()) {
-    taskList.next();
-}
 
 
 function markGroupForRepositioningToEndAreas(data) {
     console.log('I got called'+data.group);
+    console.log(data.group);
+    
 }
+
+function setDraggable(item) {
+    console.log('I got called'+item);
+    console.log(item);
+    item['draggable']=true;
+    // moet aan gameWorld juiste object opvragen
+    var t = gameWorld.getObject(item.value);
+    t['draggable']=true;
+    console.log(t);
+}
+
+//var tool;
+//var gameObjects = [];
+/*
+    
+    higher logic
+
+    gameWorld -> heeft een array met alle gameObjects, a backdrop and methods of constructing and handling itself from external JSON
+    // ook is er maar een gameWorld dus een module pattern is ok,
+    objectAnimator -> heeft manieren om een object op een ander frame te zetten, en of met timers ingewikkelder animaties te maken.
+     
+
+*/
+
 
 
 function init() {
-    console.log("INITTED!");
-    //initialize game
-    // perhaps start with loading an image
-    var gameroot = document.getElementById("game");
-    console.log(gameroot);
 
-    objImage = new Image();
-    objImage.src='cooker.png';
-    objImage.width='320';
-    objImage.style.position='absolute';
-    
-    objImage.style['-webkit-transition-duration'] = 2+'s';
-    objImage.style['-webkit-transition-timing-function'] = 'cubic-bezier(0.80,0,1,1)';
-    objImage.style['-webkit-transform'] = 'translate3d(400px,100px,0) rotate(30deg)';
-     //objImage.className = 'shadow';
-    gameroot.appendChild(objImage);
-    var onClickFunction = function(e) {
-        alert('You clicked that thang!');
-        console.log(e);
-        console.log(e.toElement.style['-webkit-transform'] = 'translate3d(0px,0px,0) rotate(0deg) scale(2,2)');
-        
-    }    
-    objImage.onclick=onClickFunction;
-    //doMoreStuff(sm);
+    var gameroot = document.getElementById("game");
+    gameroot.style.width = '800px';
+    gameroot.style.height = '600px';
+    gameroot.style.top = '0';
+    gameroot.style.left = '0';
+    var onMouseMove = function(e) {
+           // alert('You clicked that thang!');
+            //console.log(e);
+            gameWorld.handleMouseMove(e.x, e.y);
+           // console.log(e.toElement.style['-webkit-transform'] = 'translate3d(0px,0px,0) rotate(0deg) scale(2,2)');
+        }
+    gameroot.onmousemove=onMouseMove;
+
+
+
+    gameWorld.constructFromJSON(foodItems);
+    gameWorld.constructFromJSON(kitchenItems);
+    gameWorld.addToDOM(gameroot);
+    gameWorld.setTaskList(list);
 }
 
 window.onload = function () {
@@ -151,79 +61,4 @@ window.onload = function () {
 }
 
 
-
-
-//var task = {
-    // has an array with all its subtasks and an private indexer.
-    // the public api will be 
-    // getNewTask()
-    //      posible multiple subtasks
-    // isCurrentTaskDone()     
-    //
-   // }
-
-var level = {
-    //has a collection of tasks
-    //has a backdrop
-    //has a collection of kitchenobjects
-    
-    }
-
-//task example
-/*
-    level1 = {
-        titel:'aardappelpuree',
-        {   
-            [
-                {                
-               titel:'aardappels schillen'
-                {
-                    description:'leg drie aardappelen op tafel'
-                    //implementation details 
-                    [   replace obj12 to rect(300,300,30,30),
-                        replace obj12 to rect(300,300,30,30),
-                        replace obj12 to rect(300,300,30,30)  ]
-                }    
-                {
-                    description:'pak een mes'
-                }
-                {
-                    description:'schil al de aardappelen'
-                }
-            }
-            {
-                titel:'water aan de kook'
-                {
-                    description:'pak een pan en zet op tafel'
-                }    
-                {
-                    description:'vul pan met water'
-                }
-                {
-                    description:'zet fornuis aan'
-                }
-                {
-                    description:'zet pan op fornuis'
-                }
-            }          
-        }    
-    }
-*/
-
-var interactionObject = {
-    // has origin position, layer, standarddimension, named frames
-    //
-}
-
-
-// now to show an intro state
-// then a button to the game.
-
-// we hebben objecten.
-/*
-        pseudo idee
-        spel = 
-        array met interactionObjects (the stuff in the kitchen you can touch)
-        array met opdrachten (lange termijn =level, korte termijn=bijv zet bloem water en eieren op tafel)
-*/
 
