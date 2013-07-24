@@ -70,7 +70,55 @@ sm.getStatus(); // 'working'
 }
 */
 
-console.log(module1.export1);
+//console.log(module1.export1);
+
+
+var list = {
+    
+    'tasks':[
+
+                {
+                    'titel':'pak drie aardappelen en leg ze op het kleed.',
+                    'code':{
+                        'functionName':'markGroupForRepositioningToEndAreas',
+                        'functionArgs':{
+                                            'group':'[potato1, potato2, potato3]',
+                                            'endareas':'[12,12,12]'                                        
+                                        }
+                                                
+                    }
+                }, 
+                {
+                    'titel':'pak een aardappelschilmes.'
+                },
+                {
+                    'titel':'schil de aardappelen.'
+                }
+
+            ]
+           }
+
+
+
+console.log(taskList.feed(list));
+if (taskList.isDone()) {
+    taskList.next();
+}
+if (taskList.isDone()) {
+    taskList.next();
+}
+if (taskList.isDone()) {
+    taskList.next();
+}if (taskList.isDone()) {
+    taskList.next();
+}
+
+
+function markGroupForRepositioningToEndAreas(data) {
+    console.log('I got called'+data.group);
+}
+
+
 function init() {
     console.log("INITTED!");
     //initialize game
