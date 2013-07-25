@@ -1,33 +1,46 @@
 "use strict";
 
 
-
-function markGroupForRepositioningToEndAreas(data) {
-    console.log('I got called'+data.group);
-    console.log(data.group);
-    
-}
-
 function setDraggable(item) {
-    //console.log('I got called'+item);
-    //console.log(item);
-    //item['draggable']=true;
-    // moet aan gameWorld juiste object opvragen
+
     var t = gameWorld.getObject(item);
     if (t){
         t['draggable']=true;
-        console.log(t);
+        print(t);
     } else {
-        console.log("gameobject not found");
+        print("gameobject not found");
     }
 }
 
 function setDestinationRect(item) {
     var args = item.split(',');
-    console.log("function got "+args.length+" arguments");   //needs 5
-    // console.log(item);
-//console.log(item[0]);    
+    if (args.length === 5) {   
+      
     gameWorld.addDestination(args[0], args[1], args[2], args[3], args[4]);
+    } else {
+        print('wrong amount of arguments at setDestinationRect');    
+    }
+
+}
+
+function setSpecialCounter(item) {
+        // will need to add a descriptive way of telling me what to do.
+        // for starters it got fed "setSpecialCounter": "potato1, peeler, 5"
+        // clickObject withObjectHolding for that many times
+        var args = item.split(',');
+        console.log(args);
+        var special = {'name':args[0], 'against':args[1], 'times':args[2]};
+        console.log(special);
+
+        taskCounters.addSpecial(special);
+}
+
+function flashAnim(item){
+    //make the correct module do something fancy with it
+    //print(gameWorld.getObject(item));    
+    //var o =     gameWorld.getObject(item);
+    //print("got flash anim to worry about now ");
+    domManipulator.flashObj(item);
 }
 
 
@@ -48,12 +61,10 @@ function setDestinationRect(item) {
 
 
 function init() {
+    
 
-    var gameroot = document.getElementById("game");
-    gameroot.style.width = '800px';
-    gameroot.style.height = '600px';
-    gameroot.style.top = '0';
-    gameroot.style.left = '0';
+    var gameroot = domManipulator.initRoot(0,0,800,600);// document.getElementById("game");
+
     gameroot.onmousemove=gameWorld.handleMouseMove;
 
 

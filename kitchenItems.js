@@ -44,7 +44,7 @@ var kitchenItems = {
             'startX': 300,
             'startY':100,
             'startAngle':90,
-            'layer':2,
+            'layer':0,
             'cellWidth':62,
             'cellHeight':105,
             'index':0,
