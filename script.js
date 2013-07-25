@@ -1,4 +1,4 @@
-
+"use strict";
 
 
 
@@ -9,14 +9,28 @@ function markGroupForRepositioningToEndAreas(data) {
 }
 
 function setDraggable(item) {
-    console.log('I got called'+item);
-    console.log(item);
-    item['draggable']=true;
+    //console.log('I got called'+item);
+    //console.log(item);
+    //item['draggable']=true;
     // moet aan gameWorld juiste object opvragen
-    var t = gameWorld.getObject(item.value);
-    t['draggable']=true;
-    console.log(t);
+    var t = gameWorld.getObject(item);
+    if (t){
+        t['draggable']=true;
+        console.log(t);
+    } else {
+        console.log("gameobject not found");
+    }
 }
+
+function setDestinationRect(item) {
+    var args = item.split(',');
+    console.log("function got "+args.length+" arguments");   //needs 5
+    // console.log(item);
+//console.log(item[0]);    
+    gameWorld.addDestination(args[0], args[1], args[2], args[3], args[4]);
+}
+
+
 
 //var tool;
 //var gameObjects = [];
@@ -40,13 +54,7 @@ function init() {
     gameroot.style.height = '600px';
     gameroot.style.top = '0';
     gameroot.style.left = '0';
-    var onMouseMove = function(e) {
-           // alert('You clicked that thang!');
-            //console.log(e);
-            gameWorld.handleMouseMove(e.x, e.y);
-           // console.log(e.toElement.style['-webkit-transform'] = 'translate3d(0px,0px,0) rotate(0deg) scale(2,2)');
-        }
-    gameroot.onmousemove=onMouseMove;
+    gameroot.onmousemove=gameWorld.handleMouseMove;
 
 
 

@@ -1,33 +1,28 @@
 
-var list = {
-    
-    'tasks':[
-
+var list = 
+{
+    "tasks": [
+        {
+            "titel": "pak drie aardappelen en leg ze op het kleed.",
+            "onEnter": [
                 {
-                    'titel':'pak drie aardappelen en leg ze op het kleed.',
-                    'code':{
-                        'onEnter':{
-                            'functionName':'setDraggable',
-                            'functionArgs':{'value':'masher' }
-                                  },
-                        'onRun':{
-                            
-                                  },
-                        'onExit':{
-                                 }
-                                                
-                    }
-                }, 
-                {
-                    'titel':'pak een aardappelschilmes.'
+                    "setDraggable": "potato1"
                 },
                 {
-                    'titel':'schil de aardappelen.'
+                    // the destinatonrect will be middle x, middle y, halfwidth, halfheight
+                    "setDestinationRect": "potato1, 300,400, 50, 20"
                 }
-
-            ]
-           }
-
+            ],
+            "onExit": []
+        },
+        {
+            "titel": "pak een aardappelschilmes."
+        },
+        {
+            "titel": "schil de aardappelen."
+        }
+    ]
+}
 
 
 
