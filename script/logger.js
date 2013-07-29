@@ -1,24 +1,22 @@
 "use strict";
 
-var Logger = (function(){
+var Logger = (function () {
     var output = true;
+
     function printLine(line) {
-        if (output){        
+        if (output) {
             console.log(line);
-        }    
+        }
     }
+
     function setVisible(value) {
-        output = value;    
-    }    
-    
+        output = value;
+    }
+
     return {
-        print:printLine,
-        visible:setVisible    
+        print: printLine,
+        visible: setVisible
     }
 })();
 
-var print =Logger.print;
-
-
-
-
+var print = Logger.print;
