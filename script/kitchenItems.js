@@ -6,7 +6,7 @@ var introItems = {
             "x": 0,
             "y": 0,
             "rotation": 0,
-            "layer": -200,
+            "layer": -10,
             "width": 800,
             "height": 600,
             "frames": [
@@ -21,10 +21,12 @@ var introItems = {
         {
             "name": "carpet",
             "src": "carpet.png",
-            "x": 50,
-            "y": 50,
+            "x": 250,
+            "y": 250,
+            "originX": 50,
+            "originY": 50,
             "rotation": 0,
-            "layer": -150,
+            "layer": -8,
             "width": 752,
             "height": 568,
             "frames": [

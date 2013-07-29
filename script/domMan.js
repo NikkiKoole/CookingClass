@@ -42,7 +42,7 @@ var DomManipulator = (function() {
     
     function tweenTo(id, x, y, z, rotation, duration, callback) {
        var el = document.getElementById(id);
-        el.style['-webkit-transition-duration'] = '1s';
+        el.style['-webkit-transition-duration'] = duration+'s';
         el.style['-webkit-transition-timing-function'] = 'cubic-bezier(0.80,0,1,1)';
         el.style['-webkit-transform'] = 'translate3d('+x+'px'+','+y+'px'+','+z+'px'+') rotate('+rotation+'deg)';
         el.style.zIndex= z;          
