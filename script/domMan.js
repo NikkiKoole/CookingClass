@@ -28,7 +28,7 @@ var DomManipulator = (function() {
     function addSpr(id, x, y, w, h, url, rotation, layer) {
             var objImage = document.createElement("div");
             setCommon(objImage, id, x, y, w, h, rotation, layer);            
-            //console.log(url);            
+        
             setBackdropURL(objImage, url);
             root.appendChild(objImage); 
                        

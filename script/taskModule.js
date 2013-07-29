@@ -14,7 +14,6 @@ var taskCounters = (function() {
     }
     
     function addTimer(timer) {
-        //console.log(timer);
         timerCounters.push(timer);
     }
 
@@ -23,11 +22,8 @@ var taskCounters = (function() {
     }
 
     function testTimers() {
-        //console.log('testing my ass off');
         var counters = []; // has callback functions that will be called  
 
-        
-     // console.log('timers length: '+timerCounters.length);
         for (var i=0;i<timerCounters.length;i+=1) {
             
             var counter = timerCounters[i];
@@ -37,12 +33,10 @@ var taskCounters = (function() {
         
         for (var j=0;j<timerCounters.length;j+=1) {
             if (timerCounters[j].ticks<=0) {
-                
                 timerCounters.splice(j,1);
             }        
         }
-        
-        //console.log(timerCounters.length);
+
         return counters;       
     }
 
@@ -50,10 +44,9 @@ var taskCounters = (function() {
         // the taskCounter has an array of specialClickCounters.
         // when you feed this function an array that has the correctly named items for one of the counters
         // this function will return that specialClickCounter
-//console.log('testing special');        
+       
         for (var j=0; j<specialClickCounters.length; j+=1) {
-            //console.log('in the loop special'); 
-            //console.log(' '+specialClickCounters[j].name+", "+specialClickCounters[j].against);
+
             var name = specialClickCounters[j].name.trim();
             var against = specialClickCounters[j].against.trim();  
             var nameFound=false;
@@ -74,16 +67,11 @@ var taskCounters = (function() {
                 if (item.times > 0) {
                     item.times-=1;
                     if (item.times <= 0) {
-                         //var index = specialClickCounters.indexOf(specialClickCounters[j]);
-                        specialClickCounters.splice(j,1); 
-                        //console.log('removing'+specialClickCounters[j])       
-                    }
+                         specialClickCounters.splice(j,1); 
+                   }
                    return item;
                 }            
             }
-
-            console.log(specialClickCounters[j]);
-            
         }
         
     }
@@ -115,16 +103,12 @@ var taskList = (function(){
     // the game can ask if the current task is done //subTaskDone
     // if so a new task can be loaded //next
     // behind the scenes tasks have onEnter and onExit funcionalities to initialize and destruct things and eventlisteners
-    // initialliy this module is given a json to construct itself with  //feed
-    
     var json;
     var currentTask;
     var index;
-    //var done=false;
 
     function setCurrentTaskToIndex() {
- 
-        currentTask = json.tasks[index];
+         currentTask = json.tasks[index];
     }
 
     function isCurrentTaskDone() {

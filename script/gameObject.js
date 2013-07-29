@@ -93,7 +93,6 @@ GameObject.prototype = {
 
     fromJSON:function(data) {
         this.name = data.name;
-        //console.log("/images/"+data.src) ;       
         this.src = data.src;
         
         this.x = data.x;

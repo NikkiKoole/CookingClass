@@ -18,7 +18,6 @@ function setDraggable(item) {
     var t = GameWorld.getObject(args[0]);
     if (t){
         t['draggable']=(args[1]==='true');
-        print(t);
     } else {
         print("gameobject not found");
     }
@@ -67,7 +66,6 @@ function tweenBackToOrigin(item) {
     t.setDraggable(false);
     GameWorld.setDragging(null);
     DomManipulator.tweenObj(t.name, destinationX, destinationY, t.layer, t.rotation,  2, reposition);
-    //console.log("tried tweening");
 }
 
 function flashAnim(item){
@@ -85,7 +83,7 @@ function panFill() {
 }
 
 function panFilled() {
-    //console.log('calling panfillED');
+    
 }
 
 function panCook(item) {
