@@ -1,4 +1,35 @@
 CookingClass
 ============
 
-so enlightenaosia sdoiasd oiajsd
+
+A very simple task based game, with engine.
+the different parts of the game engine are
+ 
+- **GameObject**
+ - comes in two kinds:  the normal one and the layered one 
+ - handles world position, rotation and other visible properties, it can also handle multiple frames for animations. The layered version handles a collection of children that move as one and can be retrieved individually.
+- **GameWorld**
+ - the gameworld has a collection of GameObjects and handles Clicks and MouseMove events, it also polls the TaskList to check if it wants a new task.
+ - when the player clicks the gameworld the collider module returns a list of gameObjects you were over.
+- **TaskList**
+ - the taskList is a group of taskCounters that describe which tasks are open, you can define the taskList (and as such, a level, or a long game) in the taskList.js file, it has a little API (scriptAPI.js)
+- **TaskCounter** can handle these kinds of 'events'
+   1. destinationRect : A visible rectangle on the screen to click with something.
+   2. clickCounter : describe an object to be clicked, while possibly dragging another and for a certain amount. It also has callbacks
+  3. timerCounter : a certain amount of ticks it calls onTick and on the end it calls onFinished methods
+
+
+basically the game loop functions as follows
+
+1. when GameWorld.handleClick is triggered
+    - find elements under cursor
+    - drop dragging item when over destination
+    - pick up item when possible
+    - check if you have any clicks in clickCounter for the elements you found
+2. when GameWorld.handleMouseMove is triggered
+    - handle repositioning of *dragging* item
+1. everytime Gameworld.run() is called
+    - check if you have timers and handle them.
+    - check if your subTask is done and ask for a new one if so,
+    - check if game is done (no more tasks)
+

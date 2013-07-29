@@ -28,6 +28,7 @@ var DomManipulator = (function() {
     function addSpr(id, x, y, w, h, url, rotation, layer) {
             var objImage = document.createElement("div");
             setCommon(objImage, id, x, y, w, h, rotation, layer);            
+            //console.log(url);            
             setBackdropURL(objImage, url);
             root.appendChild(objImage); 
                        
@@ -43,14 +44,13 @@ var DomManipulator = (function() {
        var el = document.getElementById(id);
         el.style['-webkit-transition-duration'] = '1s';
         el.style['-webkit-transition-timing-function'] = 'cubic-bezier(0.80,0,1,1)';
-        //el.style['-webkit-transform'] = 'translate('+x+'px,'+y+'px)';
         el.style['-webkit-transform'] = 'translate3d('+x+'px'+','+y+'px'+','+z+'px'+') rotate('+rotation+'deg)';
         el.style.zIndex= z;          
         el.addEventListener("webkitTransitionEnd", callback, true);
     }
     
    function setFrame2(el, src, frame) {
-           el.style['background']='url('+src+') '+ (-frame.xOffset)+'px '+ (-frame.yOffset)+'px';  
+           el.style['background']='url('+'images/'+src+') '+ (-frame.xOffset)+'px '+ (-frame.yOffset)+'px';  
 
     }
     
@@ -84,7 +84,6 @@ var DomManipulator = (function() {
     }
 
     function setPosition(el, x, y, z, angle) {
-       // var el = document.getElementById(id);
         el.style['-webkit-transform'] = 'translate3d('+x+'px'+','+y+'px'+','+z+'px'+') rotate('+angle+'deg)';    
     }
 
@@ -105,13 +104,10 @@ var DomManipulator = (function() {
 
     function setVisibility(id, value) {
         var el = document.getElementById(id);
-        //console.log((value)==='false'); 
         if (value==='false' || value===false){
             el.style['visibility']="hidden" ; 
-            //console.log('set to hidden');  
         } else {
             el.style['visibility']="visible" ;
-            //console.log('set to visible');  
         } 
     }
 

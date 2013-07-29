@@ -93,7 +93,9 @@ GameObject.prototype = {
 
     fromJSON:function(data) {
         this.name = data.name;
-        this.src = "images/"+data.src;
+        //console.log("/images/"+data.src) ;       
+        this.src = data.src;
+        
         this.x = data.x;
         this.y = data.y;
         this.layer = data.layer;
@@ -111,7 +113,7 @@ GameObject.prototype = {
          
     },
     constructDIV:function(item) {
-        this.div = DomManipulator.createSprite(item.name, item.x, item.y,item.width, item.height, item.src, item.rotation, item.layer);
+        this.div = DomManipulator.createSprite(item.name, item.x, item.y,item.width, item.height, "images/"+item.src, item.rotation, item.layer);
     }
 }
 
@@ -125,7 +127,7 @@ function LayeredGameObect() {
 LayeredGameObect.prototype = {
     fromJSON:function(data) {
         this.name = data.name;
-        this.src = "images/"+data.src;
+        this.src = data.src;
         this.x = data.x;
         this.y = data.y;
         this.originX = data.originX;
@@ -143,6 +145,7 @@ LayeredGameObect.prototype = {
             this.layerOffsets.push({x:0,y:0});
             this.layers.push(gameObject);       
         }
+        
     }, 
     setLayerOffset:function(name,x,y) {
         var offset = this.getLayerOffset(name)
