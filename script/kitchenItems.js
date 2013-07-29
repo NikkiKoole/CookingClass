@@ -1,3 +1,46 @@
+var introItems = {
+    "items": [
+    {
+            "name": "grass",
+            "src": "grass.png",
+            "x": 0,
+            "y": 0,
+            "rotation": 0,
+            "layer": -200,
+            "width": 800,
+            "height": 600,
+            "frames": [
+                {
+                    "name": "normal",
+                    "xOffset": 0,
+                    "yOffset": 0
+                }
+            ],
+            "initital": "normal"
+        },
+        {
+            "name": "carpet",
+            "src": "carpet.png",
+            "x": 50,
+            "y": 50,
+            "rotation": 0,
+            "layer": -150,
+            "width": 752,
+            "height": 568,
+            "frames": [
+                {
+                    "name": "normal",
+                    "xOffset": 0,
+                    "yOffset": 0
+                }
+            ],
+            "initital": "normal"
+        }]
+}
+
+
+
+
 var kitchenItems = {
     "items": [
         {
@@ -83,7 +126,7 @@ var kitchenItems = {
             "originX": 300,
             "originY": 140,
             "rotation": 0,
-            "layer": 5,
+            "layer": 3,
             "width": 300,
             "height": 87,
             "frames": [
@@ -133,42 +176,7 @@ var kitchenItems = {
             ],
             "initital": "normal"
         },
-        {
-            "name": "grass",
-            "src": "grass.png",
-            "x": 0,
-            "y": 0,
-            "rotation": 0,
-            "layer": -200,
-            "width": 800,
-            "height": 600,
-            "frames": [
-                {
-                    "name": "normal",
-                    "xOffset": 0,
-                    "yOffset": 0
-                }
-            ],
-            "initital": "normal"
-        },
-        {
-            "name": "carpet",
-            "src": "carpet.png",
-            "x": 50,
-            "y": 50,
-            "rotation": 0,
-            "layer": -150,
-            "width": 752,
-            "height": 568,
-            "frames": [
-                {
-                    "name": "normal",
-                    "xOffset": 0,
-                    "yOffset": 0
-                }
-            ],
-            "initital": "normal"
-        },
+        
         {
             "name": "burner",
             "src": "burner.png",

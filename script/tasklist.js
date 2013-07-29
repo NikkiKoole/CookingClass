@@ -39,18 +39,18 @@ var list ={
             ]
         },
         {
-            "titel": "Deksel van pan.",
+            "titel": "Doe de deksel<br>van de pan.",
             "onEnter": [
                 {
                     "setDraggable": "lid,true"
                 },
                 {
-                    "setDestinationRect": "lid,320,50,180,80"
+                    "setDestinationRect": "lid,420,50,180,80"
                 }
             ]
         },
         {
-            "titel": "Pak de pan.",
+            "titel": "Zet de pan <br>op de goede plek.",
             "onEnter": [
                 {
                     "setDraggable": "pan,true"
@@ -66,7 +66,7 @@ var list ={
             ]
         },
         {
-            "titel": "Vul met water.",
+            "titel": "Vul de pan met water.",
             "onEnter": [
                 {
                     "setClickable": "water,null,1,waterOn"
@@ -74,7 +74,7 @@ var list ={
             ]
         },
         {
-            "titel": "Wacht tot gevuld.",
+            "titel": "Wacht tot de pan<br>gevuld is.",
             "onEnter": [
                 {
                     "setTimer": "12,panFill,panFilled"
@@ -87,7 +87,7 @@ var list ={
             ]
         },
         {
-            "titel": "steek gasflesje aan",
+            "titel": "Steek het gasflesje aan",
             "onEnter": [
                 {
                     "setVisible": "straal,false"
@@ -106,7 +106,7 @@ var list ={
             ]
         },
         {
-            "titel": "Pan op vuur.",
+            "titel": "Zet de pan op het vuur.",
             "onEnter": [
                 {
                     "setDraggable": "pan,true"
@@ -125,7 +125,7 @@ var list ={
             ]
         },
         {
-            "titel": "Aardappels in pan.",
+            "titel": "Doe de aardappels in pan.",
             "onEnter": [
                 {
                     "setDraggable": "potato1,true"
@@ -148,7 +148,7 @@ var list ={
             ]
         },
         {
-            "titel": "Deksel op pan.",
+            "titel": "Doe de deksel op de pan.",
             "onEnter": [
                 {
                     "setDraggable": "lid,true"
@@ -159,7 +159,7 @@ var list ={
             ]
         },
         {
-            "titel": "Wacht tot gekookt.",
+            "titel": "Wacht tot het water kookt.",
             "onEnter": [
                 {
                     "setTimer": "10,null,null"
@@ -167,7 +167,7 @@ var list ={
             ]
         },
         {
-            "titel": "Gekookt.",
+            "titel": "Even laten koken.",
             "onEnter": [
                 {
                     "setTimer": "20,panCook,null"
@@ -175,13 +175,13 @@ var list ={
             ]
         },
         {
-            "titel": "Deksel van pan",
+            "titel": "Doe de deksel van de pan",
             "onEnter": [
                 {
                     "setDraggable": "lid,true"
                 },
                 {
-                    "setDestinationRect": "lid,320,50,180,80"
+                    "setDestinationRect": "lid,420,50,180,80"
                 },
                 {
                     "setFrame": "potato1,cooked"
@@ -192,7 +192,7 @@ var list ={
             ]
         },
         {
-            "titel": "Vuur uit",
+            "titel": "Zet het vuur uit",
             "onEnter": [
                 {
                     "setClickable": "burner,null,1,burnerOff"
@@ -200,7 +200,7 @@ var list ={
             ]
         },
         {
-            "titel": "Aardappels uit pan",
+            "titel": "Haal de aardappels<br>uit de pan",
             "onEnter": [
                 {
                     "setDraggable": "potato1,true"

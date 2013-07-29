@@ -8,9 +8,10 @@ body {
 #textOverlay {
     position:absolute;
     top:50px;
+    
     background-color:#fff;
-    left: 5px;
-    -webkit-user-select: none; /* Chrome/Safari */
+    left: 15px;
+    -webkit-user-select: none; 
     cursor:'pointer';
     pointer-events: none;
 }

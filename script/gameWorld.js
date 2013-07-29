@@ -1,10 +1,8 @@
 
 var GameWorld = (function() {
     var gameObjects = [];
-    var list;
+    var tasks;
     var draggingItem; 
-    var panIsClosed;
- 
  
     function fromJSON(json) {
 
@@ -22,12 +20,12 @@ var GameWorld = (function() {
             }
             if (o.name.indexOf('burner')===0) {
                 o.burnerOn = function(e, g) {
-                    console.log('call burner on');                    
+                    //console.log('call burner on');                    
                     var g = getGameObject('fire');
                     g.setVisible(true);                
                 } 
                  o.burnerOff = function(e, g) {
-                    console.log('got thriough here');
+                    //console.log('got thriough here');
                     var g = getGameObject('fire');
                     g.setVisible(false);                
                 }            
@@ -91,7 +89,7 @@ var GameWorld = (function() {
 
     function addDestinationRectForObject(item, x, y, w, h) {
         //will add and handy named div into the dom.
-        var objImage = DomManipulator.createRectangle("destination_"+item, x, y, w, h, '#b0c4de', 0, 1);
+        var objImage = DomManipulator.createRectangle("destination_"+item, x, y, w, h, '#aa00aa', 0.6, 0, 1);
         taskCounters.addDestinationRect(objImage);
         var json = {
             'name':"destination_"+item,
@@ -108,8 +106,8 @@ var GameWorld = (function() {
     
 
     
-    function setList(json) {
-        list = json;
+    function setTasks(json) {
+        tasks = json;
         taskList.feed(json);
         taskList.next();
     }
@@ -146,7 +144,7 @@ var GameWorld = (function() {
         // you run a test to see which objects are under the cursor
         // if you click a draggable object it will become the 'draggingItem'  
         var c = collider.itemsAtCursor(e.pageX, e.pageY, gameObjects);// getCollidingItemsAtPosition(e.pageX, e.pageY);
-        console.log(c);
+       // console.log(c);
         
         if (draggingItem) {
 
@@ -222,7 +220,7 @@ var GameWorld = (function() {
                     document.getElementById('textOverlay').innerHTML='<h1>'+taskList.currentName()+'</h1>';
                 }         
             } else {
-                document.getElementById('textOverlay').innerHTML='<h1>Einde</h1>'; 
+                document.getElementById('textOverlay').innerHTML='<h1>Eet smakelijk!</h1>'; 
             }   
    
         }     
@@ -231,7 +229,7 @@ var GameWorld = (function() {
 
 
     return {
-        setTaskList:setList,
+        setTaskList:setTasks,
         constructFromJSON:fromJSON,
         handleMouseMove:onMouseMove,
         handleClick:onClick,

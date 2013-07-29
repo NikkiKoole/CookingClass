@@ -1,6 +1,6 @@
 "use strict";
 
-var logger = (function(){
+var Logger = (function(){
     var output = true;
     function printLine(line) {
         if (output){        
@@ -17,7 +17,7 @@ var logger = (function(){
     }
 })();
 
-var print =logger.print;
+var print =Logger.print;
 
 
 

@@ -16,10 +16,11 @@ var DomManipulator = (function() {
          div.parentNode.removeChild(id);    
     }
 
-    function addRect(id, x, y, w, h, color, rotation, layer) {
+    function addRect(id, x, y, w, h, color, opacity, rotation, layer) {
             var objImage = document.createElement("div");
             setCommon(objImage, id, x, y, w, h, rotation, layer);             
             setColor(objImage, color);
+            objImage.style.opacity = opacity;
             root.appendChild(objImage); 
             return objImage 
     }

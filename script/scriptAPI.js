@@ -85,7 +85,7 @@ function panFill() {
 }
 
 function panFilled() {
-    console.log('calling panfillED');
+    //console.log('calling panfillED');
 }
 
 function panCook(item) {
