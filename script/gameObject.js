@@ -95,7 +95,7 @@ GameObject.prototype = {
 
     fromJSON:function(data) {
         this.name = data.name;
-        this.src = data.src;
+        this.src = "images/"+data.src;
         this.x = data.x;
         this.y = data.y;
         this.layer = data.layer;
@@ -127,7 +127,7 @@ function LayeredGameObect() {
 LayeredGameObect.prototype = {
     fromJSON:function(data) {
         this.name = data.name;
-        this.src = data.src;
+        this.src = "images/"+data.src;
         this.x = data.x;
         this.y = data.y;
         this.originX = data.originX;
