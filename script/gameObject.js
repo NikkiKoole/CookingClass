@@ -30,7 +30,7 @@ GameObject.prototype = {
         this.div.draggable=value;   
     },
     setZ:function(z) {
-        domManipulator.setZ(this.name, z);       
+        DomManipulator.setZ(this.name, z);       
     },
     setDimension:function(w, h) {
         this.width = w;
@@ -40,11 +40,10 @@ GameObject.prototype = {
         this.x = x;
         this.y = y;    
         this.rotation = rot;
-        domManipulator.position(this.div,x,y, 0,rot );
+        DomManipulator.position(this.div,x,y, 0,rot );
     },
     setVisible: function(value) {
-        console.log('setting visible '+value);
-        domManipulator.setVisible(this.name, value);
+        DomManipulator.setVisible(this.name, value);
     },
 
     getFrame:function(name) {
@@ -59,10 +58,9 @@ GameObject.prototype = {
     },
     setFrame:function(name) {
         
-         var f = this.getFrame(name);  
+        var f = this.getFrame(name);  
         if (this.getFrame(name)){
-            //console.log('setted frame');
-            domManipulator.setFrame(this.div, this.src, f);
+            DomManipulator.setFrame(this.div, this.src, f);
             this.lastFrame = f;
             
         }    
@@ -113,7 +111,7 @@ GameObject.prototype = {
          
     },
     constructDIV:function(item) {
-        this.div = domManipulator.createSprite(item.name, item.x, item.y,item.width, item.height, item.src, item.rotation, item.layer);
+        this.div = DomManipulator.createSprite(item.name, item.x, item.y,item.width, item.height, item.src, item.rotation, item.layer);
     }
 }
 

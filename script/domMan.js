@@ -1,4 +1,4 @@
-var domManipulator = (function() {
+var DomManipulator = (function() {
     var root; //the 'game' div    
     function init(x, y, w, h) {
         root = document.getElementById("game");
@@ -104,13 +104,13 @@ var domManipulator = (function() {
 
     function setVisibility(id, value) {
         var el = document.getElementById(id);
-        console.log((value)==='false'); 
+        //console.log((value)==='false'); 
         if (value==='false' || value===false){
             el.style['visibility']="hidden" ; 
-            console.log('set to hidden');  
+            //console.log('set to hidden');  
         } else {
             el.style['visibility']="visible" ;
-            console.log('set to visible');  
+            //console.log('set to visible');  
         } 
     }
 

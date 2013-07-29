@@ -1,5 +1,5 @@
 
-var gameWorld = (function() {
+var GameWorld = (function() {
     var gameObjects = [];
     var list;
     var draggingItem; 
@@ -91,7 +91,7 @@ var gameWorld = (function() {
 
     function addDestinationRectForObject(item, x, y, w, h) {
         //will add and handy named div into the dom.
-        var objImage = domManipulator.createRectangle("destination_"+item, x, y, w, h, '#b0c4de', 0, 1);
+        var objImage = DomManipulator.createRectangle("destination_"+item, x, y, w, h, '#b0c4de', 0, 1);
         taskCounters.addDestinationRect(objImage);
         var json = {
             'name':"destination_"+item,
@@ -128,7 +128,7 @@ var gameWorld = (function() {
     }
 
     function tweenToLayer(item, z) {
-         domManipulator.tweenObj(item.name, item.x, item.y, z, item.rotation,  0, null);   
+         DomManipulator.tweenObj(item.name, item.x, item.y, z, item.rotation,  0, null);   
     }
     
     function releaseDraggable() {
