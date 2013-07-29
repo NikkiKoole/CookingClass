@@ -3,12 +3,12 @@ var foodItems = {
         {
             'name':'potato1',
             'src':'potato1_062.png',
-            'startX': 100,
-            'startY':100,
-            'startAngle':90,
-            'layer':2,
-            'cellWidth':60,
-            'cellHeight':170,
+            'x': 100,
+            'y':150,
+            'rotation':110,
+            'layer':80,
+            'width':60,
+            'height':170,
             'index':0,
             'frames':[{
                  'name':'uncooked',
@@ -47,12 +47,12 @@ var foodItems = {
         ,{
             'name':'potato2',
             'src':'potato3_06.png',
-            'startX': 200,
-            'startY':100,
-            'startAngle':0,
-            'layer':2,
-            'cellWidth':66,
-            'cellHeight':117,
+            'x': 400,
+            'y':60,
+            'rotation':90,
+            'layer':80,
+            'width':66,
+            'height':117,
             'index':0,
             'frames':[{
                  'name':'uncooked',
@@ -60,27 +60,27 @@ var foodItems = {
                  'yOffset':0
                 },
                 {
-                 'name':'cooked',
+                 'name':'peeled1',
                  'xOffset':66,
                  'yOffset':0
                 },
                 {
-                 'name':'peeled1',
+                 'name':'peeled2',
                  'xOffset':132,
                  'yOffset':0
                 },
                 {
-                 'name':'peeled2',
+                 'name':'peeled3',
                  'xOffset':198,
                  'yOffset':0
                 },
                 {
-                 'name':'peeled3',
+                 'name':'peeled4',
                  'xOffset':264,
                  'yOffset':0
                 },
                 {
-                 'name':'peeled4',
+                 'name':'cooked',
                  'xOffset':330,
                  'yOffset':0
                 },
