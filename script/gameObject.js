@@ -119,8 +119,8 @@ LayeredGameObect.prototype = new GameObject();
 LayeredGameObect.constructor = LayeredGameObect;
 
 function LayeredGameObect() {
-    this.layers;
-    this.layerOffsets;
+    this.layers; // individual divs
+    this.layerOffsets; // their offset to the main object
 }
 
 LayeredGameObect.prototype = {

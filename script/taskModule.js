@@ -21,7 +21,7 @@ var taskCounters = (function () {
     }
 
     function testTimers() {
-        var counters = []; // has callback functions that will be called  
+        var counters = []; // has callback functions that will be called eventually 
 
         for (var i = 0; i < timerCounters.length; i += 1) {
 
@@ -45,7 +45,7 @@ var taskCounters = (function () {
         // this function will return that specialClickCounter
 
         for (var j = 0; j < specialClickCounters.length; j += 1) {
-            console.log(specialClickCounters[j]);
+            //console.log(specialClickCounters[j]);
             var name = specialClickCounters[j].name.trim();
             var against = specialClickCounters[j].against.trim();
             var nameFound = false;
@@ -114,12 +114,12 @@ var taskList = (function () {
     // the game can ask if the current task is done //subTaskDone
     // if so a new task can be loaded //next
     // behind the scenes tasks have onEnter and onExit funcionalities to initialize and destruct things and eventlisteners
-    var json;
+    var taskCollection;
     var currentTask;
     var index;
 
     function setCurrentTaskToIndex() {
-        currentTask = json.tasks[index];
+        currentTask = taskCollection.tasks[index];
     }
 
     function isCurrentTaskDone() {
@@ -194,13 +194,13 @@ var taskList = (function () {
 
     function feedJSON(b) {
         index = -1;
-        json = b;
+        taskCollection = b;
     }
 
     function nextTask() {
-        if (json && json.tasks) {
+        if (taskCollection && taskCollection.tasks) {
 
-            if (json.tasks.length > index - 1) {
+            if (taskCollection.tasks.length > index - 1) {
                 if (currentTask) {
                     exitTask();
                 }
@@ -223,8 +223,8 @@ var taskList = (function () {
 
 
     function completed() {
-        if (json && json.tasks) {
-            return (index === json.tasks.length)
+        if (taskCollection && taskCollection.tasks) {
+            return (index === taskCollection.tasks.length)
         }
         return false;
     }
