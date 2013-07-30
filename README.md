@@ -34,8 +34,8 @@ basically the game loop functions as follows
     - check if game is done (no more tasks)
 
 the syntax to describe tasks looks like 
-<code>
-var list ={
+
+>var list ={
     "tasks": [
         {},
         {
@@ -55,9 +55,9 @@ var list ={
                 }
             ]
         }]
-</code>
 
-The functions used in the script are
+
+ *  **The functions used in the task script are**
     - setDraggable
     - setDestinationRect
     - setClickable
