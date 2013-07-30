@@ -16,7 +16,11 @@ the different parts of the game engine are
 - **TaskCounter** can handle these kinds of 'events'
    1. destinationRect : A visible rectangle on the screen to click with something.
    2. clickCounter : describe an object to be clicked, while possibly dragging another and for a certain amount. It also has callbacks
-  3. timerCounter : a certain amount of ticks it calls onTick and on the end it calls onFinished methods
+   3. timerCounter : a certain amount of ticks it calls onTick and on the end it calls onFinished methods
+- **DomManipulator**
+ - handles styling and other dom properties for divs, it also generates the correct dom elements from json.
+- **collider**
+ - checks which elements are colliding with a point, it also returns a group of colliding objects if needed.
 
 
 basically the game loop functions as follows
@@ -66,5 +70,7 @@ the syntax to describe tasks looks like
     - setVisible 
     - setZ 
     - setFrame
+
+a Task can have on onEnter and an onExit piece that gets called at the right times.
 
 
