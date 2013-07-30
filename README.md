@@ -33,3 +33,38 @@ basically the game loop functions as follows
     - check if your subTask is done and ask for a new one if so,
     - check if game is done (no more tasks)
 
+the syntax to describe tasks looks like 
+<code>
+var list ={
+    "tasks": [
+        {},
+        {
+            "titel": "Pak twee aardappelen<br>en leg ze op het kleed.",
+            "onEnter": [
+                {
+                    "setDraggable": "potato1,true"
+                },
+                {
+                    "setDestinationRect": "potato1,360,440,50,150"
+                },
+                {
+                    "setDraggable": "potato2,true"
+                },
+                {
+                    "setDestinationRect": "potato2,240,400,50,100"
+                }
+            ]
+        }]
+</code>
+
+The functions used in the script are
+    - setDraggable
+    - setDestinationRect
+    - setClickable
+    - tweenBackToOrigin
+    - setTimer 
+    - setVisible 
+    - setZ 
+    - setFrame
+
+
