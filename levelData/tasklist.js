@@ -9,13 +9,13 @@ var list ={
                     "setDraggable": "potato1,true"
                 },
                 {
-                    "setDestinationRect": "potato1,320,440,150,50"
+                    "setDestinationRect": "potato1,360,440,50,150"
                 },
                 {
                     "setDraggable": "potato2,true"
                 },
                 {
-                    "setDestinationRect": "potato2,200,400,100,50"
+                    "setDestinationRect": "potato2,240,400,50,100"
                 }
             ]
         },
@@ -206,13 +206,13 @@ var list ={
                     "setDraggable": "potato1,true"
                 },
                 {
-                    "setDestinationRect": "potato1,320,440,150,50"
+                    "setDestinationRect": "potato1,360,440,50,150"
                 },
                 {
                     "setDraggable": "potato2,true"
                 },
                 {
-                    "setDestinationRect": "potato2,200,400,100,50"
+                    "setDestinationRect": "potato2,240,400,50,100"
                 }
             ]
         }

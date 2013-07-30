@@ -1,6 +1,6 @@
 var DomManipulator = (function () {
     'use strict';
-    var root; //the 'game' div    
+    var root;
 
     function init(x, y, w, h) {
         root = document.getElementById("game");
@@ -8,6 +8,8 @@ var DomManipulator = (function () {
         root.style.height = h + 'px';
         root.style.top = x + 'px';
         root.style.left = y + 'px';
+        root.style.position = 'relative';
+        root.style.overflow = "hidden";
         return root;
     }
 
@@ -24,7 +26,6 @@ var DomManipulator = (function () {
         el.id = id;
         el.style.display = "block";
         el.style.position = "absolute";
-        el.style.overflow = "hidden";
     }
 
     function setColor(el, color) {

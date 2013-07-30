@@ -86,14 +86,15 @@ var GameWorld = (function () {
 
 
     function addDestinationRectForObject(item, x, y, w, h) {
-        //will add and handy named div into the dom.
-        var objImage = DomManipulator.createRectangle("destination_" + item, x, y, w, h, '#aa00aa', 0.6, 0, 1);
+        //will add and handy named destination div into the dom.
+        var original = getGameObject(item);
+        var objImage = DomManipulator.createRectangle("destination_" + item, x, y, w, h, '#aa00aa', 0.6, original.rotation, 1);
         taskCounters.addDestinationRect(objImage);
         var json = {
             'name': "destination_" + item,
             'x': x * 1,
             'y': y * 1,
-            'rotation': 0,
+            'rotation': original.rotation,
             'layer': 1,
             'width': w * 1,
             'height': h * 1,
@@ -140,9 +141,11 @@ var GameWorld = (function () {
         //print(e); 
         // a few thigs should happen here. 
         // you run a test to see which objects are under the cursor
-        // if you click a draggable object it will become the 'draggingItem'  
+        // if you click a draggable object it will become the 'draggingItem'
+        var r = document.getElementById('game');
+                console.log(e);
+
         var c = collider.itemsAtCursor(e.pageX, e.pageY, gameObjects); // getCollidingItemsAtPosition(e.pageX, e.pageY);
-        // console.log(c);
 
         if (draggingItem) {
 
@@ -186,6 +189,29 @@ var GameWorld = (function () {
         (g[counter.callback](counter, g));
     }
 
+    function tweenIn() {
+        DomManipulator.tweenObj('textOverlay', 10, 0, 1, 0, 1, 0.01, function(){console.log('tween done');});   
+    }
+
+    function handleTasks() {
+        if (taskList.subTaskDone()) {
+            console.log('subtask done');
+            var out = document.getElementById('textOverlay');
+            DomManipulator.position(out, -500,0,1,0);
+
+            if (!taskList.allDone()) {
+                taskList.next();
+                if (taskList.currentName()) {
+
+                    window.setTimeout(tweenIn, 1);
+                    document.getElementById('textOverlay').innerHTML = '<h1>' + taskList.currentName() + '</h1>';
+                }
+            } else {
+                document.getElementById('textOverlay').innerHTML = '<h1>Eet smakelijk !!</h1>';
+            }
+
+        }    
+    }
 
     function onUpdate() {
         var timerCallbacks = taskCounters.updateTimers();
@@ -202,25 +228,13 @@ var GameWorld = (function () {
                 }
             }
         }
-
-        // console.log(timerCallbacks[0]);
-
+        
+        //fixme: 
         var g = getGameObject('straal');
         g.cycle('flow');
         var g = getGameObject('fire');
         g.cycle('fire');
-        if (taskList.subTaskDone()) {
-            //set ui text to task name.
-            if (!taskList.allDone()) {
-                taskList.next();
-                if (taskList.currentName()) {
-                    document.getElementById('textOverlay').innerHTML = '<h1>' + taskList.currentName() + '</h1>';
-                }
-            } else {
-                document.getElementById('textOverlay').innerHTML = '<h1>Eet smakelijk!</h1>';
-            }
-
-        }
+        handleTasks();
 
     }
 

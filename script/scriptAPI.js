@@ -63,7 +63,7 @@ function tweenBackToOrigin(item) {
     };
     t.setDraggable(false);
     GameWorld.setDragging(null);
-    DomManipulator.tweenObj(t.name, destinationX, destinationY, t.layer, t.rotation, 2, 0.01, reposition);
+    DomManipulator.tweenObj(t.name, destinationX, destinationY, t.layer, t.rotation, 1, 0.01, reposition);
 }
 
 function flashAnim(item) {
