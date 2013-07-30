@@ -1,6 +1,14 @@
 CookingClass
 ============
 
+----------------------------------------
+
+**HOW TO RUN**
+ *download the repository as a zip, unpack it and run index.html in Chrome*
+ 
+------------------------------------------ 
+ 
+
 
 A very simple task based game, with engine.
 the different parts of the game engine are
