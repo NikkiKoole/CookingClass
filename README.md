@@ -1,6 +1,12 @@
 CookingClass
 ============
 
+-------------------------------------
+**Update** : I've started a new version, the beginnings of that are in the Engine5 folder (jasmine tests are in /spec)
+-------------------------------------
+
+
+
 ----------------------------------------
 
 **HOW TO RUN**
