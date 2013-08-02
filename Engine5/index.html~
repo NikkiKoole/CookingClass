@@ -9,12 +9,14 @@
 <body>
    
 
-    <div id='game'>
+    <div id='container'>
     </div>
 
+    <script src='src/gameworld.js'></script>
+    <script src='src/tweenboss.js'></script>
+    <script src='src/domedit.js'></script>
     <script src='src/main.js'></script> 
-    
-    
+
 </body>
 
 </html>

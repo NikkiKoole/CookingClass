@@ -39,14 +39,41 @@ var DomEdit = (function () {
         var length = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
         var angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
         var el = createDiv(id);
-        setDimension(el, width, length)
-        setPosition(el, x1, y1, 0, angle);
+        setDimension(el, length, width)
+        
+        console.log(angle);
         setColor(el, color);
-
+        //el.style.left = x1;
+        //el.style.top = y1;
+       // el.style['-webkit-transform'] = ' rotate(' + angle + 'deg)';
         el.style['-webkit-transform-origin'] = '0 100%';
-        document.getElementById('game').appendChild(el);
+        setPosition(el, x1, y1, 0, angle);
+        document.getElementById('container').appendChild(el);
         return el;
-    }
+    }/*
+    function linePure(id, x1, y1, x2, y2, width, color){
+        var length = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+        var angle  = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+        var transform = 'rotate('+angle+'deg)';
+         var el = createDiv(id);
+          el.width = length;
+        el.style.left = x1;
+        el.style.top = y1;
+        setPosition(el, x1, y1, 0, angle);
+        //el.style['-webkit-transform'] = ' rotate(' + angle + 'deg)';
+
+        var line = $('<div>')
+        .appendTo('#page')
+        .addClass('line')
+        .css({
+          'position': 'absolute',
+          'transform': transform
+        })
+        .width(length)
+        .offset({left: x1, top: y1});
+        
+    return line;
+    }*/
 
     function triangle(id, x, y, z, left, right, bottom, rotation, color) {
         var el = createDiv(id);
@@ -122,15 +149,17 @@ function GameObject(name, type) {
     // this.div = DomEdit.addTriangle(name, 100,100,0, 30,30,100,10,'#ff00ff');
    // this.div = DomEdit.addCircle(name, 100, 100, 0, 100, 100, '#aa00ff');
     //for (var i = 0; i < 20; i += 1) {
-        // this.div = DomEdit.addLine(name, 100,0,Math.random()*600,Math.random()*600,10,randColor());
+        this.div = DomEdit.addLine(name, 100,0,Math.random()*600,Math.random()*600,10,randColor());
         //this.div = DomEdit.addCircle(name, Math.random()*600,Math.random()*600,0, 100,100,randColor());
         var color = randColor();
         this.div = DomEdit.addRoundedRect(name, Math.random() * 600, Math.random() * 600, 0, Math.random() * 400, 100, Math.random() * 360, color, 10);
     //}
 }
-
-
-
-var g = new GameObject('jos', 'rectangle');
+//for (var i = 0; i < 20; i += 1) {
+// DomEdit.addLine('kut', 0,0,100+Math.random()*3,100,10,randColor());/
+//}
+DomEdit.addLine('kut', 0, 100,100+Math.random()*3,100,10,randColor());
+DomEdit.addLine('kut', 0, 0,200+Math.random()*3,100,10,randColor());
+//var g = new GameObject('jos', 'rectangle');
 
 //DomEdit.addRectangle();

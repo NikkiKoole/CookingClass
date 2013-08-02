@@ -24,7 +24,6 @@ describe("A Gameworld", function() {
         container.setAttribute('id','container');
         document.body.appendChild(container);
         GameWorld.deleteAllGameObjects();
-        //console.log('before each');
     });
 
     afterEach(function() {
@@ -37,6 +36,7 @@ describe("A Gameworld", function() {
     it("should find a div named 'container'", function() {
         expect(document.getElementById('container')).toBeTruthy();
     });
+
     describe("Can Create Read Update & Delete GameObjects", function() {
         describe("Create", function() {
             it("can create an object using: createObject('rectangle') ", function() {

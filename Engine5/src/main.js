@@ -1,295 +1,314 @@
-var DomEdit = (function () {
-    function createDiv(id) {
-        var div = document.createElement("div");
-        div.id = id;
-        div.style.position = "absolute";
-        return div;
-    }
 
-    function setDimension(el, w, h) {
-        el.style.width = w + "px";
-        el.style.height = h + "px"
-    }
 
-    function setPosition(el, x, y, z, rotation) {
-        el.style['-webkit-transform'] = 'translate3d(' + x + 'px' + ',' + y + 'px' + ',' + z + 'px' + ') rotate(' + rotation + 'deg)';
-        //console.log(el, x, y, z, rotation);
-    }
+/*
+function validColor(c){
+    var re = /^#([0-9a-f]{3}){1,2}$/i;
+    var c = re.exec(c);
+    return (c);
+}
+*/
+//x:Math.random()*800,y:Math.random()*600
+//var Rand
+//Math.random()*800
+//Rand.nr(800)
 
-    function setColor(el, color) {
-        var re = /^#([0-9a-f]{3}){1,2}$/i;
-        var c = re.exec(color);
-        if (!c) {
-            throw(new Error('Color ' + color + ' is not well defined'));
+Rand = (function() {
+    function randomNumber(){
+        if (arguments.length===0)
+        {
+            return Math.random();
+        }else if (arguments.length === 1) {
+            return Math.random()*arguments[0];
+        }else if (arguments.length === 2) {
+            //find smallest of two values and largest.
+            var small = Math.min(arguments[0],arguments[1]);
+            var large = Math.max(arguments[0],arguments[1]);
+            var range = large - small;
+            return ((Math.random()*range)+small);
+        }        
+
+    }
+    function randomColor() {
+        var leading = function(amount) {
+            var str = "";
+            for (var i=0; i< amount; i += 1) {
+                str += "0";        
+            }
+            return str;
         }
-        el.style['background-color'] = color;
+
+        var hexString =  '#' + Math.floor(Math.random() * 16777215).toString(16);
+
+
+        if (hexString.length !== 7) {
+            if (hexString.length < 7) {
+                hexString = hexString + leading(7-hexString.length); 
+            }
+        }
+    return hexString;
     }
-    
-    function appendChild(el) {
-        document.getElementById('container').appendChild(el);
+    function randomBool() {
+        return Math.random()<0.5 ? true : false;
+    }     
+    function randomChoice() {
+        var length = arguments.length;
+        var index = Math.floor(Math.random()*length);
+        return arguments[index];
     }
-    
-
-    function rect(id, x, y, w, h, z, angle, color) {
-        var el = createDiv(id);
-       // setDimension(el, w, h)
-       // setColor(el, color);
-        setPosition(el, x, y, z, angle);
-        appendChild(el);
-        console.log(el);
-        return el;
-    }
-
-    function line(id, x1, y1, x2, y2, width, color) {
-        var length = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-        var angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
-        var el = createDiv(id);
-        setDimension(el, width, length)
-        setPosition(el, x1, y1, 0, angle);
-        setColor(el, color);
-
-        el.style['-webkit-transform-origin'] = '0 100%';
-        appendChild(el);
-        return el;
-    }
-
-    function triangle(id, x, y, z, left, right, bottom, rotation, color) {
-        var el = createDiv(id);
-        setDimension(el, w, h);
-        setPosition(el, x, y, z, rotation);
-
-        el.style['border-left'] = left + 'px solid transparent';
-        el.style['border-right'] = right + 'px solid transparent';
-        el.style['border-bottom'] = bottom + 'px solid ' + color;
-        el.style['font-size'] = '0px';
-        el.style['line-height'] = '0px';
-        appendChild(el);
-        return el;
-    }
-
-    function circle(id, x, y, z, w, h, rotation, color) {
-        var el = createDiv(id);
-        setDimension(el, w, h);
-        setColor(el, color);
-        setPosition(el, x, y, z, rotation);
-
-        el.style['-webkit-border-radius'] = '50%';
-        appendChild(el);
-        return el;
-    }
-
-    function roundedRect(id, x, y, z, w, h, rotation, color, rounded) {
-        var el = createDiv(id);
-        setDimension(el, w, h);
-        setColor(el, color);
-        setPosition(el, x, y, z, rotation);
-
-        el.style['-webkit-border-radius'] = rounded + 'px';
-        appendChild(el);
-        return el;
-    }
-
-
-
     return {
-        addRectangle: rect,
-        addLine: line,
-        addTriangle: triangle,
-        addCircle: circle,
-        addRoundedRect: roundedRect
-
+        nr:randomNumber,
+        color:randomColor,
+        bool:randomBool,
+        choose:randomChoice
     }
-
 })();
 
+Color = (function() {
+    var hexwidth = 2; 
+    var hue = Math.random();        
+    var goldenRatio = 0.618033988749895; 
 
-function GameObject(id, type) {
-    //afhankelijk van het type krijgt een GameObject een collision method en extra data.
-    this.id = id;
-    this.type = type;
-    this.div;
-
-    if (this.type === 'rectangle'){
-        this.width = 40;
-        this.height = 40;    
-    }
-    if (this.type === 'circle'){
-        this.radius = 40;
-    }
-    if (this.type === 'triangle'){
-        this.left = 40;
-        this.right = 40;
-        this.bottom = 40;
-    }
-    if (this.type === 'line'){
-        this.x2 = 40;
-        this.y2 = 40;
-        this. width = 3;
-    }
-    if (this.type === 'rounded'){
-        this.width = 40;
-        this.height = 40;
-        this.rounded = 10;
-        this.setPosition = function(x, y, z) {
-            console.log('my hiya is differetn');        
-            return this;
+    function hsvToRgb(h,s,v) {
+        var hi = Math.floor(h*6),
+        f = h*6 - hi,
+        p = v * (1-s),
+        q = v * (1-f*s),
+        t = v * (1-(1-f)*s),
+        r = 255,
+        g = 255,
+        b = 255;
+        switch(hi) {
+            case 0: r = v, g = t, b = p; break;
+            case 1: r = q, g = v, b = p; break;
+            case 2: r = p, g = v, b = t; break;
+            case 3: r = p, g = q, b = v; break;
+            case 4: r = t, g = p, b = v; break;
+            case 5: r = v, g = p, b = q; break;
         }
+
+        return [Math.floor(r*256),Math.floor(g*256),Math.floor(b*256)];
+    };
+ 
+    function padHex(str) {
+        if(str.length > hexwidth){
+            return str;
+        }
+        return new Array(hexwidth - str.length + 1).join('0') + str;
+    };
+
+    function isValid(c) {
+        var re = /^#([0-9a-f]{3}){1,2}$/i;
+        var c = re.exec(c);
+        return (c);
+    }    
+    function get (hex,saturation,value) {
+        hue += goldenRatio;
+        hue %= 1;
+        if(typeof saturation !== "number") {saturation = 0.5};
+        if(typeof value !== "number"){value = 0.95};
+        var rgb = hsvToRgb(hue,saturation,value);
+        if(hex){
+            return "#" +  padHex(rgb[0].toString(16))
+                        + padHex(rgb[1].toString(16))
+                        + padHex(rgb[2].toString(16));
+        } else {  
+            return rgb;
+        }
+    };
+    return {
+        valid:isValid,
+        hsv:get
     }
+})();
+
+function test(color) {
+    // validate the color yo have gotten
+    if (!Color.valid(color)){
+        console.log('error');
+    }
+    // first take off the '#'
+    var str = color.slice(1);
+    // then check if you have gotten the funky '#fff' shorthand way
+    if (str.length === 3) {
+        str = str[0]+str[0]+str[1]+str[1]+str[2]+str[2];
+    }
+
+    console.log(color, parseInt(str, 16));
+    // now finaly we have the int representation of your color
 }
 
-GameObject.prototype.getPosition = function() {
-            console.log(this.div.style['-webkit-transform']);
-            console.log(this.div)
-            var results = (this.div.style['-webkit-transform']).match(/matrix(?:(3d)\(\d+(?:, \d+)*(?:, (\d+))(?:, (\d+))(?:, (\d+)), \d+\)|\(\d+(?:, \d+)*(?:, (\d+))(?:, (\d+))\))/)
+    function rgbToHsl(r, g, b){
+        r /= 255, g /= 255, b /= 255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h, s, l = (max + min) / 2;
 
-    if(!results) return [0, 0, 0];
-    if(results[1] == '3d') return results.slice(2,5);
+        if(max == min){
+            h = s = 0; // achromatic
+        }else{
+            var d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch(max){
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
 
-    results.push(0);
-    return results.slice(5, 8);                                     
-        //return (this.div.style['-webkit-transform'])
-        
-        //console.log('hiya');        
-        //return this;
+        return [h, s, l];
+    }
+   function rgbToHsv(r, g, b){
+        r = r/255, g = g/255, b = b/255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h, s, v = max;
+
+        var d = max - min;
+        s = max == 0 ? 0 : d / max;
+
+        if(max == min){
+            h = 0; // achromatic
+        }else{
+            switch(max){
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
+
+        return [h, s, v];
+    }
+    function hsvToRgb(h, s, v){
+        var r, g, b;
+
+        var i = Math.floor(h * 6);
+        var f = h * 6 - i;
+        var p = v * (1 - s);
+        var q = v * (1 - f * s);
+        var t = v * (1 - (1 - f) * s);
+
+        switch(i % 6){
+            case 0: r = v, g = t, b = p; break;
+            case 1: r = q, g = v, b = p; break;
+            case 2: r = p, g = v, b = t; break;
+            case 3: r = p, g = q, b = v; break;
+            case 4: r = t, g = p, b = v; break;
+            case 5: r = v, g = p, b = q; break;
+        }
+
+        return [r * 255, g * 255, b * 255];
     }
 
+function setColorProperties(r, g, b, saturation, brightness) {
+    // get hue from current color
+    var hue = rgbToHsv(r,g,b)[0];
+    var output = hsvToRgb(hue, saturation, brightness);
+    return output;
+}
 
-GameWorld = (function () {
-    var gameObjects = [];
-    var uniqueIDCounter = 0;
+
+console.log(setColorProperties(255,0,0,1,0))
+console.log(setColorProperties(255,0,0,0.3,0.3))
+
+//test('#f00');
+//test('#ff0000');
+
+//console.log(rgbToHsl(0,255,255));
+//console.log(rgbToHsv(255,0,255));
+//console.log(get(true, 0.5,0.5));
+//console.log(get(true, 0.25,0.05));
+//console.log(get(true, 0.25,0.05));
+
+//console.log("rood", parseInt('ff0000', 16));
+//console.log("rood", parseInt('f00', 16));
+//test("#ff0000")
+//.addObject('rect').addObject
+
+//console.log(typeof {test:12})
+//console.log(typeof {test:[{},{}]})
+//setColor()
+
+
+/*
+GameWorld.createObject('rectangle').setPosition(20,0).setDimension(1000,300).setRotation(23).setGradient('#fff','#222');
+GameWorld.createObject('circle').setPosition(100,100).setColor('#0f5').setRadius(340).setDropShadow(1,1,0,0,'#ff1234').setGradient('#fff','#222');
+GameWorld.createObject('triangle').setTriangle(50,50,100).setPosition(100,100).setScale(2,1).setGradient('#fff','#222');
+GameWorld.createObject('triangle').setTriangle(50,50,100).setPosition(130,130).setScale(2,1).setColor(randColor()).setAlpha(0.5);
+GameWorld.createObject('rounded').setPosition(400,100).setDimension(1000,300).setColor(randColor()).setRotation(12).setDropShadow(1,1,10,10,'#ff1234').setAlpha(0.5).setGradient('#fff','#222');
+
+for (var i=0; i<40; i+=1) {
+GameWorld.createObject('line').from(10,10).to(Math.random()*800,Math.random()*600).setColor(randColor()).setWidth(5).setGradient('#fff','#222');
+GameWorld.createObject('line').from(800,600).to(Math.random()*800,Math.random()*600).setColor(randColor()).setDropShadow(1,1,10,1,'#ff1234').setGradient('#fff','#222');
+}
+*/
+
+// 3, {x:100, y:100, color:'#ffffff'}
+
+//TimeLineTo([{duration:3, x:100, y:100, delay:0.5},{duration:1, color:'#ff0000', delay:3}])
+//              
+
+
+//GameObject.TweenTo({duration:'1s', ease:'ease-in', delay:'1s', x:0, y:0})
+
+
+function entry() {
+    var container= document.getElementById('container'); 
+    container.style.width='800px';
+    container.style.height='600px';
+
+    var rects = [];
+    for (var i=0; i< 20; i+=1) {
+        //var r = GameWorld.createObject('triangle').setPosition(Math.random()*200, Math.random()*200).setDimension(100,100).setColor(randColor());
+        var l = GameWorld.createObject('line').from(10,10).to(Rand.nr(800),Rand.nr(600)).setColor(Rand.color()).setWidth(5);
+        rects.push(l);
+    }
+var t = GameWorld.createObject('triangle').setDimension(200,100).setPosition(100,100).setScale(1,1);
+    container.addEventListener('click', function(){
+        for (var j=0; j<rects.length; j+=1)
+        {
+            TweenBoss.executeTween(rects[j], 2.3, {x:Rand.nr(400,800),y:Rand.nr(300,600),rotation:Rand.nr(360),color:Rand.color(),ease:'ease-in-out', scaleX:Rand.nr(10),delay:'0s'});
+        }
+
+        
+TweenBoss.executeTween(t, 2.3, {x:Rand.nr(380,400),y:Rand.nr(300,320),rotation:Rand.nr(360),color:Rand.color(),ease:'ease-in-out', scaleX:Rand.nr(3),delay:'0s'});
+
+    }, true);
+
+
     
-    function typeAllowed(t) {
-        var allowed = ['rectangle', 'circle', 'line', 'triangle', 'rounded', 'sprite', 'sheet'];
-        for (var i=0; i<allowed.length; i+= 1) {
-            if (t===allowed[i]) {
-                return true;
-            }
-        }
-        throw(new Error("Wrong Type"));
-    }
+    
 
+/*
+    var rect1 = GameWorld.createObject('rectangle').setPosition(Math.random()*200, Math.random()*200).setDimension(100,100).setColor(randColor());
 
-    function idAllowed(id) {
-        for (var i=0; i<gameObjects.length; i += 1){
-            if (id===gameObjects[i].id) {
-                throw(new Error("Wrong Id"));                
-                return false;            
-            }
-        }
-        return true;
-        
-    }
+   var rect2 = GameWorld.createObject('rectangle').setPosition(Math.random()*400, Math.random()*200).setDimension(100,100).setColor(randColor());
+  var rect3 = GameWorld.createObject('rectangle').setPosition(Math.random()*400, Math.random()*400).setDimension(100,100).setColor(randColor());
+        container.addEventListener('click', function(){
+            
+            TweenBoss.executeTween(rect1, 2.3, {x:Math.random()*800,y:Math.random()*600,rotation:Math.random()*360,color:randColor(),ease:'ease-in-out', delay:'0s'});
+            TweenBoss.executeTween(rect2, 2.3, {x:Math.random()*800,y:Math.random()*600,rotation:Math.random()*360,color:randColor(),ease:'ease-in-out', delay:0});
+            TweenBoss.executeTween(rect3, 2.3, {x:Math.random()*800,y:Math.random()*600,rotation:Math.random()*360,color:randColor(),ease:'ease-in-out', delay:0});
+    }, true);
+*/
 
-    function getObject(id) {
-        for (var i = 0; i < gameObjects.length; i += 1) {
-            if (id === gameObjects[i].id) {
-                return gameObjects[i];
-            }
-        }
-        return false;
-    }
+    //console.log(rect.div.style.webkitTransition);
+}
 
-    function deleteObject(id) {
-        var index=-1;        
-        for (var i=0; i<gameObjects.length;i+=1) {
-            if (id === gameObjects[i].id) {
-                index = i;
-                
-            }
-        }
-        if (index>-1) {
-            gameObjects.splice(index,1);
-        }
-    }
+//entry();
+//var rect = GameWorld.createObject('rectangle');
+/*
+var container= document.getElementById('container'); 
+    container.style.width='800px';
+    container.style.height='600px';
 
-    function deleteAllGameObjects() {
-        while (gameObjects.length > 0) {
-         gameObjects.pop();
-        }         
-    }
-    function countGameObjects() {
-        return gameObjects.length;
-    }
+var rect1 = GameWorld.createObject('rectangle');
+var group = GameWorld.createObject('group');//.createObject('rectangle').createObject('rectangle');
+group.addObject(rect1.setPosition(100,0)).addObject(GameWorld.createObject('rectangle').setColor('#f0f'));
 
-    function createObject(arg1, arg2) {
-        // first try and find a type
-        // then an id, if no id is found, generate one.
-        var type, id,needsMore=false;
-        if (typeof arg1 === 'string' && arg2 === undefined){
-                 // createObject('rect') //heeft dus een generated ID nodig
-           
-                type = arg1;
-                id = 'GID'+type+uniqueIDCounter;
-                uniqueIDCounter += 1;
-                
+container.addEventListener('click', function(){
+    TweenBoss.executeTween(rect1, 2.3, {rotation:Math.random()*3060,color:randColor(),ease:'ease-in-out', delay:'0s'});
+    TweenBoss.executeTween(group, 2.3, {x:Math.random()*800,y:Math.random()*600,ease:'ease-in-out', delay:0});
 
-        } else  if (typeof arg1 === 'string' && typeof arg2 === 'string'){
-            // createObject('rect','idName')                
-            type = arg1;
-            id = arg2;   
-
-        } else  if (typeof arg1 === 'object' && arg2 === undefined) {
-                // createObject({id:'myId', type:'rectangle'})
-                type = arg1.type;                
-                if (arg1.hasOwnProperty('id') ) {
-                    id = arg1.id;                
-                } else {
-                    id = 'GID'+type+uniqueIDCounter;
-                    uniqueIDCounter += 1;
-                }
-                if (Object.keys(arg1).length >2 ) {
-                    needsMore = true;                    
-                }
-            } else {
-            console.log('these arguments are wrong'+arg1+", "+arg2);
-        }
-        
-        if (typeAllowed(type) && idAllowed(id)) {
-            var gameObject = new GameObject(id, type);            
-            gameObjects.push(gameObject);
-            if (needsMore) {
-                // will overwrite properties it finds that are also in the current GameObject,
-                // so you can define an object partly or fully, or from an external file 
-      
-                for (var i=0;i<Object.keys(arg1).length;i+=1){
-                    var key = Object.keys(arg1)[i];
-                    if (key !== 'id' || key !=='type') {
-                        if (gameObject[key] ){
-                            gameObject[key] = arg1[key];
-                        }
-                    }            
-                            
-                }
-            }
-        }
-
-        
-        //DomEdit.createDiv(id);
-        gameObject.div = DomEdit.addRectangle(id, 100, 100, 100, 45, 23,56)
-        //console.log(gameObject.div);        
-        return gameObject;
-        
-    }
-
-    return {
-        initStage:function() {
-        },
-        createObject:createObject,
-        getObject:getObject,
-        deleteObject:deleteObject,
-        deleteAllGameObjects:deleteAllGameObjects,
-        countGameObjects:countGameObjects
-    }
-})();
-
-
-//var el = DomEdit.addRectangle('nikkiTest', 100, 100, 30, 30, 0, 5, '#ff0000');//.getPosition();
-//el.getPosition();
-
-//console.log(GameWorld.createObject('rectangle'));
-//console.log(GameWorld.createObject('circle'));
-//console.log(GameWorld.createObject('triangle'));
-//console.log(GameWorld.createObject('rounded').setPosition().setPosition());
-//console.log(GameWorld.createObject('line').setPosition());
-
-//console.log(GameWorld.createObject({id:'nikki1',type:'rounded'}));
+   
+    }, true); 
+*/
