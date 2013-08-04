@@ -8,7 +8,9 @@ var DomEdit = (function () {
 
     function removeObject(id) {
         var div = document.getElementById(id);
-        div.parentNode.removeChild(div);
+        if (div) {
+            div.parentNode.removeChild(div);
+        }
     }
 
     function setDimension(el, w, h) {
