@@ -38,19 +38,7 @@ describe("The Random Module", function() {
         var c;        
         it("expects Rand color() to return a valid color", function() {
             c = Rand.color();             
-            expect(validColor(c)).toBeTruthy();;
-        });
-        it("expects Rand color('#f00') to return a color from black to red", function() {
-            c = Rand.color('#f00');             
-            expect(validColor(c)).toBeTruthy();;
-        });
-        it("expects Rand color('#f00', '#0f0') to return a color from red to green", function() {
-            c = Rand.color('#f00','#0f0');             
-            expect(validColor(c)).toBeTruthy();;
-        });
-        it("expects Rand color(0, 1) to return a random color with saturation 0 and value 1", function() {
-            c = Rand.color('#f00','#0f0');             
-            expect(validColor(c)).toBeTruthy();;
+            expect(Color.valid(c)).toBeTruthy();;
         });
     });
     describe("Can work on choices", function() {
