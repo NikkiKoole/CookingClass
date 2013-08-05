@@ -20,38 +20,59 @@ function onItemClicked(a, b, c) {
 }
 
 function entry() {
+
+    
     var container= document.getElementById('container'); 
     if (container) {
         container.style.width='800px';
         container.style.height='600px';
     }
 
-    //var r = GameWorld.createObject('rectangle').setPosition(0,0).tweenTo(1, {x:200});
-    //r.setPosition(0,0);
+    var dotCount = 14;
 
-
-
-/*
-    var rects = [];
-    for (var i=0; i< 60; i+=1) {
-        var t = GameWorld.createObject('triangle').setDimension(200,100).setPosition(Rand.nr(800),Rand.nr(600)).setScale(Rand.nr(3),1);
-
-        rects.push(t);
+    var lines = [];
+    var dots = [];
+    for (var i=0; i< dotCount; i+=1) {
+        var r = GameWorld.createObject('circle').setPosition(i*200,Rand.nr(0,200)).setDiameter(40).setZ(3);
+        //r.tweenTo(6, {scaleX:2, scaleY:2} )        
+        dots.push(r)
     }
-var t = GameWorld.createObject('triangle').setDimension(200,100).setPosition(100,100).setScale(1,1);
+    var radius = 20;
+    for (var i=0; i< dotCount-1; i+=1) {
+ 
+        lines.push(GameWorld.createObject('line').from(dots[i].x+radius, dots[i].y+radius).to(dots[i+1].x+radius, dots[i+1].y+radius).setColor('#000'))
+    }
+
+
     container.addEventListener('click', function(){
-        for (var j=0; j<rects.length; j+=1)
-        {
-                rects[j].tweenTo(2.3, {color:Rand.color(0.5,0.5),delay:(j / 100)+'s',x:Rand.nr(-30,30).toString(),ease:'ease-in-out'});
+        for (var i=0; i< dotCount; i+=1) {
+            dots[i].tweenTo(4, {x:Rand.nr(800), y:Rand.nr(300)})
+        }
+    }, true);
+
+
+    var time;
+    function draw() {
+        requestAnimationFrame(draw);
+        var now = new Date().getTime(),
+            dt = now - (time || now);
+     
+        time = now;
+
+        for (var i=0; i< dotCount-1; i+=1) {
+            var line = lines[i];
+            line.from(dots[i].x, dots[i].y).to(dots[i+1].x, dots[i+1].y);
         }
 
-        
-TweenBoss.executeTween(t, 2.3, {x:Rand.nr(380,400),y:Rand.nr(300,320),rotation:Rand.nr(360),color:Rand.color(0.5,0.9),ease:'ease-in-out', scaleX:Rand.nr(30),delay:'0s'});
+    }
+    draw();
 
-    }, true);
-*/
+
+            
+
+
 }
 
-entry();
+//entry();
 
 

@@ -19,10 +19,10 @@ function GameObject(id, type) {
         this.height = 40;
     }
     if (this.type === 'circle') {
-        this.radius = 40;
-        this.setRadius = function (radius) {
-            this.radius = radius;
-            DomEdit.setDimension(this.div, this.radius || 0, this.radius || 0);
+        this.diameter = 40;
+        this.setDiameter = function (diameter) {
+            this.diameter = diameter;
+            DomEdit.setDimension(this.div, this.diameter || 0, this.diameter || 0);
             return this;
         };
     }
@@ -84,17 +84,23 @@ function GameObject(id, type) {
         this.rounded = 10;
     }
     if (this.type === 'group') {
-
+        this.width = 40;
+        this.height = 40;
         this.addObject = function (gameObject) {
             this.div.style.position = "relative";
             var found = document.getElementById(gameObject.id);
             if (found) {
-                this.div.appendChild(found);
+                DomEdit.appendChildTo(found, this.div);
+                //this.div.appendChild(found);
             }
             return this;
-            //should atleast look in the dom for this id, 
-            // if found should make that dive one of the groups children in the dom.
         };
+        this.removeObject = function (gameObject) {
+            var found = document.getElementById(gameObject.id);
+            if (found) {
+                DomEdit.appendChildTo(found)
+            }
+        }
     }
 }
 

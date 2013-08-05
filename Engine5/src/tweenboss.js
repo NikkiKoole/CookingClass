@@ -49,12 +49,12 @@ var TweenBoss = (function () {
     function getDuration(duration) {
         return duration + 's';
     }
-    function getonComplete(args) {
+    function getOnComplete(args) {
         if (args.hasOwnProperty('onComplete')) {
             return args.onComplete;
         }
     }
-    function getonCompleteArgs(args) {
+    function getOnCompleteArgs(args) {
         if (args.hasOwnProperty('onCompleteArgs')) {
             return args.onCompleteArgs;
         }
@@ -66,8 +66,8 @@ var TweenBoss = (function () {
             property: getProperties(gameObject, args).join(),
             delay: getDelay(args),
             ease: getEase(args),
-            onComplete: getonComplete(args),
-            onCompleteArgs: getonCompleteArgs(args)
+            onComplete: getOnComplete(args),
+            onCompleteArgs: getOnCompleteArgs(args)
         };
 
     }
@@ -104,6 +104,8 @@ var TweenBoss = (function () {
         if (argTester(gameObject, args)) {
             //console.log(gameObject.div.style['WebkitTransition'])
             gameObject.div.addEventListener( 'webkitTransitionEnd', cleanup, false);
+        } else {
+            cleanup(); // if you don't need to tween, because the values aren't different, the cleanup & onComplete will still be called.        
         }
         
         //console.log(dto.property,dto.duration,dto.delay,dto.ease);
@@ -126,9 +128,6 @@ var TweenBoss = (function () {
         
         
         gameObject.div.offsetWidth;//hack om een reflow te forceren, zodat een tween altijd start.
-        
-        
-        
     }
 
     

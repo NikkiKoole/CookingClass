@@ -35,6 +35,13 @@ var DomEdit = (function () {
     function appendChild(el) {
         document.getElementById('container').appendChild(el);
     }
+    function appendChildTo(el, to) {
+        if (to) {
+            to.appendChild(el);
+        } else {
+            document.getElementById('container').appendChild(el);
+        }
+    }
 
     function rect(gameObject) {
         var el = createDiv(gameObject.id);
@@ -127,6 +134,7 @@ var DomEdit = (function () {
         appendChild(el);
         return el;
     }
+    
 
     return {
         addRectangle: rect,
@@ -142,7 +150,8 @@ var DomEdit = (function () {
         setBoxShadow: setBoxShadow,
         setOpacity: setOpacity,
         setGradient: setGradient,
-        removeObject:removeObject
+        removeObject:removeObject,
+        appendChildTo:appendChildTo
     };
 
 }());
