@@ -17,6 +17,10 @@ function GameObject(id, type) {
     if (this.type === 'rectangle') {
         this.width = 40;
         this.height = 40;
+        this.constructDiv = function() {
+            this.div = DomEdit.addRectangle(this);
+            return this;        
+        };
     }
     if (this.type === 'circle') {
         this.diameter = 40;
@@ -25,11 +29,19 @@ function GameObject(id, type) {
             DomEdit.setDimension(this.div, this.diameter || 0, this.diameter || 0);
             return this;
         };
+        this.constructDiv = function() {
+            this.div = DomEdit.addCircle(this);
+            return this;        
+        };
     }
     if (this.type === 'triangle') {
         this.left = 40;
         this.right = 40;
         this.bottom = 140;
+        this.constructDiv = function() {
+            this.div = DomEdit.addTriangle(this);
+            return this;        
+        };
         this.setTriangle = function (left, right, bottom) {
             this.left = left;
             this.right = right;
@@ -59,6 +71,10 @@ function GameObject(id, type) {
         this.x2 = 100;
         this.y2 = 100;
         this.width = 3;
+        this.constructDiv = function() {
+            this.div = DomEdit.addLine(this);
+            return this;        
+        };
         this.from = function (x, y) {
             this.x = x;
             this.y = y;
@@ -82,10 +98,18 @@ function GameObject(id, type) {
         this.width = 40;
         this.height = 40;
         this.rounded = 10;
+        this.constructDiv = function() {
+            this.div = DomEdit.addRounded(this);
+            return this;        
+        };
     }
     if (this.type === 'group') {
         this.width = 40;
         this.height = 40;
+        this.constructDiv = function() {
+            this.div = DomEdit.addGroup(this);
+            return this;        
+        };
         this.addObject = function (gameObject) {
             this.div.style.position = "relative";
             var found = document.getElementById(gameObject.id);
@@ -103,6 +127,11 @@ function GameObject(id, type) {
         }
     }
 }
+
+GameObject.prototype.constructDiv = function() {
+    return this;
+}
+
 
 GameObject.prototype.setDimension = function (w, h) {
     if (this.width && this.height) {

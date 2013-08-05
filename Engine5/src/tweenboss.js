@@ -2,7 +2,8 @@ var TweenBoss = (function () {
 
     function getProperties(gameObject, args) {
         var properties = [];
-
+            
+          
         if (args.hasOwnProperty('x') || args.hasOwnProperty('y') || args.hasOwnProperty('z') || args.hasOwnProperty('rotation') || args.hasOwnProperty('scaleX') || args.hasOwnProperty('scaleY')) {
             properties.push('-webkit-transform');
         }
@@ -69,7 +70,6 @@ var TweenBoss = (function () {
             onComplete: getOnComplete(args),
             onCompleteArgs: getOnCompleteArgs(args)
         };
-
     }
 
     function argTester(gameObject, args) {
@@ -81,9 +81,9 @@ var TweenBoss = (function () {
             (typeof args.rotation !== 'undefined' && args.rotation !== g.rotation) || 
             (typeof args.scaleX !== 'undefined' && args.scaleX !== g.scaleX) ||
             (typeof args.scaleY !== 'undefined' && args.scaleY !== g.scaleY)) {
-                return true;            
-            }     
-    return false;
+                return true;
+        }
+        return false;
     }
 
 
@@ -93,19 +93,19 @@ var TweenBoss = (function () {
 
         var dto = toDataObject(gameObject, duration, args);
 
-        function cleanup() {
+        function standardOnComplete() {
             gameObject.div.style['WebkitTransition'] = null;
             if (dto.onComplete) {
                 dto.onComplete.call(gameObject, dto.onCompleteArgs);
-                gameObject.div.removeEventListener( 'webkitTransitionEnd', cleanup, false);
+                gameObject.div.removeEventListener( 'webkitTransitionEnd', standardOnComplete, false);
             }
         }
 
         if (argTester(gameObject, args)) {
             //console.log(gameObject.div.style['WebkitTransition'])
-            gameObject.div.addEventListener( 'webkitTransitionEnd', cleanup, false);
+            gameObject.div.addEventListener( 'webkitTransitionEnd', standardOnComplete, false);
         } else {
-            cleanup(); // if you don't need to tween, because the values aren't different, the cleanup & onComplete will still be called.        
+            standardOnComplete(); // if you don't need to tween, because the values aren't different, the cleanup & onComplete will still be called.        
         }
         
         //console.log(dto.property,dto.duration,dto.delay,dto.ease);

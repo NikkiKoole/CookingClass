@@ -41,7 +41,14 @@ describe("has a collision Module", function() {
         rect.setRotation(45);        
         colliding = Collision.itemsAtPosition(100,100,[rect]);
         expect(colliding.length === 0).toBeTruthy();
-
+    });
+    it("expects game objects in (nested) groups to function also", function() {
+        //var rect = GameWorld.createObject('rectangle').setPosition(0,0).setDimension(100,100);
+        //var colliding = Collision.itemsAtPosition(100,100,[rect]);
+        //expect(colliding.length > 0).toBeTruthy();
+        //rect.setRotation(45);        
+        //colliding = Collision.itemsAtPosition(100,100,[rect]);
+        //expect(colliding.length === 0).toBeTruthy();
     });
 
 });

@@ -9,11 +9,11 @@ var Rand = (function () {
             }
         }
         if (arguments.length === 2) {
-            //find smallest of two values and largest.
-            var small = Math.min(min, max),
+            if (typeof min === 'number' && typeof max === 'number') {
+                var small = Math.min(min, max),
                 large = Math.max(min, max),
                 range = large - small;
-            if (typeof min === 'number' && typeof max === 'number') {
+            
                 return ((Math.random() * range) + small);
             }
         }
