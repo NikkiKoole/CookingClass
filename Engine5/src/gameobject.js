@@ -164,40 +164,39 @@ GameObject.prototype.setTransform = function (x, y, z, rotation, scaleX, scaleY)
     if (typeof scaleX === 'string') {scaleX = this.scaleX + parseInt(scaleX); }
     if (typeof scaleY === 'string') {scaleY = this.scaleY + parseInt(scaleY); }
 
-    this.x = x || this.x;
-    this.y = y || this.y;
-    this.z = z || this.z;
-    this.rotation = rotation || this.rotation;
-    this.scaleX = scaleX || this.scaleX;
-    this.scaleY = scaleY || this.scaleY;
-
+    this.x = typeof x !== 'undefined' ?  x : this.x;
+    this.y = typeof y !== 'undefined' ?  y : this.y;
+    this.z = typeof z !== 'undefined' ?  z : this.z;
+    this.rotation = typeof rotation !== 'undefined' ?  rotation : this.rotation;
+    this.scaleX = typeof scaleX !== 'undefined' ?  scaleX : this.scaleX;
+    this.scaleY = typeof scaleY !== 'undefined' ?  scaleY : this.scaleY;
 
     DomEdit.setPosition(this.div, this.x, this.y, this.z, this.rotation, this.scaleX, this.scaleY);
     return this;
 };
 
 GameObject.prototype.setPosition = function (x, y, z) {
-    this.x = x || this.x;
-    this.y = y || this.y;
-    this.z = z || this.z;
+    this.x = typeof x !== 'undefined' ?  x : this.x;
+    this.y = typeof y !== 'undefined' ?  y : this.y;
+    this.z = typeof z !== 'undefined' ?  z : this.z;
     DomEdit.setPosition(this.div, this.x, this.y, this.z, this.rotation, this.scaleX, this.scaleY);
     return this;
 };
 GameObject.prototype.setZ = function (z) {
-    this.z = z || this.z;
+    this.z = typeof z !== 'undefined' ?  z : this.z;
     DomEdit.setPosition(this.div, this.x, this.y, this.z, this.rotation, this.scaleX, this.scaleY);
     return this;
 };
 
 GameObject.prototype.setRotation = function (rotation) {
-    this.rotation = rotation || this.rotation;
+    this.rotation = typeof rotation !== 'undefined' ?  rotation : this.rotation;
     DomEdit.setPosition(this.div, this.x, this.y, this.z, this.rotation, this.scaleX, this.scaleY);
     return this;
 };
 GameObject.prototype.setScale = function (scaleX, scaleY) {
     if (typeof scaleY !== 'number') {scaleY = scaleX}
-    this.scaleX = scaleX || this.scaleX;
-    this.scaleY = scaleY || this.scaleY;
+    this.scaleX = typeof scaleX !== 'undefined' ?  scaleX : this.scaleX;
+    this.scaleY = typeof scaleY !== 'undefined' ?  scaleY : this.scaleY;
     DomEdit.setPosition(this.div, this.x, this.y, this.z, this.rotation, this.scaleX, this.scaleY);
     return this;
 };
