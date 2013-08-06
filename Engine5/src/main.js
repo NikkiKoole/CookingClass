@@ -1,4 +1,5 @@
 
+
 function entry2() {
 var EVENT = {
     ITEM_CLICKED: 1

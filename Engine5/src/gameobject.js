@@ -1,11 +1,7 @@
-function GameObject(id, type) {
+function GameObject(id) {
     "use strict";
-    //afhankelijk van het type krijgt een GameObject een collision method en extra data.
-
     this.id = id;
-    this.type = type;
     this.div = null;
-
     this.x = 0;
     this.y = 0;
     this.z = 0;
@@ -13,125 +9,11 @@ function GameObject(id, type) {
     this.color = '#ffffaa';
     this.scaleX = 1;
     this.scaleY = 1;
-
-    if (this.type === 'rectangle') {
-        this.width = 40;
-        this.height = 40;
-        this.constructDiv = function() {
-            this.div = DomEdit.addRectangle(this);
-            return this;        
-        };
-    }
-    if (this.type === 'circle') {
-        this.diameter = 40;
-        this.setDiameter = function (diameter) {
-            this.diameter = diameter;
-            DomEdit.setDimension(this.div, this.diameter || 0, this.diameter || 0);
-            return this;
-        };
-        this.constructDiv = function() {
-            this.div = DomEdit.addCircle(this);
-            return this;        
-        };
-    }
-    if (this.type === 'triangle') {
-        this.left = 40;
-        this.right = 40;
-        this.bottom = 140;
-        this.constructDiv = function() {
-            this.div = DomEdit.addTriangle(this);
-            return this;        
-        };
-        this.setTriangle = function (left, right, bottom) {
-            this.left = left;
-            this.right = right;
-            this.bottom = bottom;
-            this.div.style['border-left'] = left + 'px solid transparent';
-            this.div.style['border-right'] = right + 'px solid transparent';
-            this.div.style['border-bottom'] = bottom + 'px solid ' + (this.color || '#aaf');
-            //DomEdit.setDimension(this.div, 0, 0)
-            return this;
-        };
-        this.setDimension = function (width, height) {
-            this.left = width / 2;
-            this.right = width / 2;
-            this.bottom = height;
-            this.div.style['border-left'] = this.left + 'px solid transparent';
-            this.div.style['border-right'] = this.right + 'px solid transparent';
-            this.div.style['border-bottom'] = this.bottom + 'px solid ' + (this.color || '#aaf');
-            return this;
-        };
-        this.setColor = function (c) {
-            this.color = c;
-            this.div.style['border-bottom'] = this.bottom + 'px solid ' + this.color;
-            return this;
-        };
-    }
-    if (this.type === 'line') {
-        this.x2 = 100;
-        this.y2 = 100;
-        this.width = 3;
-        this.constructDiv = function() {
-            this.div = DomEdit.addLine(this);
-            return this;        
-        };
-        this.from = function (x, y) {
-            this.x = x;
-            this.y = y;
-            DomEdit.updateLine(this.div, this, this.x, this.y, this.x2, this.y2);
-            return this;
-        };
-        this.to = function (x, y) {
-            this.x2 = x;
-            this.y2 = y;
-            DomEdit.updateLine(this.div, this, this.x, this.y, this.x2, this.y2);
-            return this;
-        };
-        this.setWidth = function (w) {
-            this.width = w;
-            DomEdit.updateLine(this.div, this, this.x, this.y, this.x2, this.y2);
-            return this;
-        };
-        //moet wanneer verplaats or begin/eind anders gemaakt word opnieuw uitgerekent worden
-    }
-    if (this.type === 'rounded') {
-        this.width = 40;
-        this.height = 40;
-        this.rounded = 10;
-        this.constructDiv = function() {
-            this.div = DomEdit.addRounded(this);
-            return this;        
-        };
-    }
-    if (this.type === 'group') {
-        this.width = 40;
-        this.height = 40;
-        this.constructDiv = function() {
-            this.div = DomEdit.addGroup(this);
-            return this;        
-        };
-        this.addObject = function (gameObject) {
-            this.div.style.position = "relative";
-            var found = document.getElementById(gameObject.id);
-            if (found) {
-                DomEdit.appendChildTo(found, this.div);
-                //this.div.appendChild(found);
-            }
-            return this;
-        };
-        this.removeObject = function (gameObject) {
-            var found = document.getElementById(gameObject.id);
-            if (found) {
-                DomEdit.appendChildTo(found)
-            }
-        }
-    }
 }
 
 GameObject.prototype.constructDiv = function() {
     return this;
 }
-
 
 GameObject.prototype.setDimension = function (w, h) {
     if (this.width && this.height) {
@@ -159,28 +41,27 @@ GameObject.prototype.setDropShadow = function (h, v, blur, spread, color) {
 
 GameObject.prototype.setColor = function (color) {
     if (!Color.valid(color)) {
-        throw (new Error('Color ' + color + ' is not well defined'));
+        throw (Error('Color ' + color + ' is not well defined'));
     }
-
     color = Color.pad(color);
     this.color = color || this.color;
     DomEdit.setColor(this.div, this.color);
-
     return this;
 };
+
 GameObject.prototype.setBrightness = function (brightness) {
     this.setColor(Color.getAdjustedColor(this.color, {
         brightness: brightness
     }));
     return this;
 };
+
 GameObject.prototype.setSaturation = function (saturation) {
     this.setColor(Color.getAdjustedColor(this.color, {
         saturation: saturation
     }));
     return this;
 };
-
 
 GameObject.prototype.getPosition = function () {
     return {
@@ -240,3 +121,157 @@ GameObject.prototype.tweenTo = function (duration, args) {
     TweenBoss.executeTween(this, duration, args);
     return this;
 };
+
+Group.prototype = new GameObject();
+Group.prototype.constructor = Group;
+
+function Group(id) {
+    this.width = 40;
+    this.height = 40;
+     // will need to recalculate dimensions after any of its children moves individually.
+}
+
+Group.prototype.constructDiv = function() {
+    this.div = DomEdit.addGroup(this);
+    return this;        
+};
+Group.prototype.addObject = function (gameObject) {
+    this.div.style.position = "relative";
+    var found = document.getElementById(gameObject.id);
+    if (found) {
+        DomEdit.appendChildTo(found, this.div);
+        // will need to recalculate dimensions after an Add.
+    }
+    return this;
+};
+Group.prototype.removeObject = function (gameObject) {
+    var found = document.getElementById(gameObject.id);
+    if (found) {
+        DomEdit.appendChildTo(found)
+         // will need to recalculate dimensions after an Remove.
+    }
+}
+
+Rounded.prototype = new GameObject();
+Rounded.prototype.constructor = Rounded;
+function Rounded(id) {
+    GameObject.call(this, id, 'triangle');
+    this.width = 40;
+    this.height = 40;
+    this.rounded = 10;
+}
+Rounded.prototype.constructDiv = function() {
+    this.div = DomEdit.addRounded(this);
+    return this;        
+};
+
+
+Line.prototype = new GameObject();
+Line.prototype.constructor = Line;
+
+function Line(id) {
+    GameObject.call(this, id, 'triangle');
+    this.x2 = 100;
+    this.y2 = 100;
+    this.width = 3;
+}
+
+Line.prototype.constructDiv = function() {
+    this.div = DomEdit.addLine(this);
+    return this;        
+};
+
+Line.prototype.from = function (x, y) {
+    this.x = x;
+    this.y = y;
+    DomEdit.updateLine(this.div, this, this.x, this.y, this.x2, this.y2);
+    return this;
+};
+
+Line.prototype.to = function (x, y) {
+    this.x2 = x;
+    this.y2 = y;
+    DomEdit.updateLine(this.div, this, this.x, this.y, this.x2, this.y2);
+    return this;
+};
+
+Line.prototype.setWidth = function (w) {
+    this.width = w;
+    DomEdit.updateLine(this.div, this, this.x, this.y, this.x2, this.y2);
+    return this;
+};
+
+Triangle.prototype = new GameObject();
+Triangle.prototype.constructor = Triangle;
+
+function Triangle(id) {
+    GameObject.call(this, id, 'triangle');
+    this.left = 40;
+    this.right = 40;
+    this.bottom = 140;
+}
+
+Triangle.prototype.constructDiv = function() {
+    this.div = DomEdit.addTriangle(this);
+    return this;        
+};
+Triangle.prototype.setTriangle = function (left, right, bottom) {
+    this.left = left;
+    this.right = right;
+    this.bottom = bottom;
+    this.div.style['border-left'] = left + 'px solid transparent';
+    this.div.style['border-right'] = right + 'px solid transparent';
+    this.div.style['border-bottom'] = bottom + 'px solid ' + (this.color || '#aaf');
+    //DomEdit.setDimension(this.div, 0, 0)
+    return this;
+};
+Triangle.prototype.setDimension = function (width, height) {
+    this.left = width / 2;
+    this.right = width / 2;
+    this.bottom = height;
+    this.div.style['border-left'] = this.left + 'px solid transparent';
+    this.div.style['border-right'] = this.right + 'px solid transparent';
+    this.div.style['border-bottom'] = this.bottom + 'px solid ' + (this.color || '#aaf');
+    return this;
+};
+Triangle.prototype.setColor = function (c) {
+    this.color = c;
+    this.div.style['border-bottom'] = this.bottom + 'px solid ' + this.color;
+    return this;
+};
+
+Rectangle.prototype = new GameObject();
+Rectangle.prototype.constructor = Rectangle;
+
+function Rectangle(id) {
+        GameObject.call(this, id, 'rectangle');
+        this.width = 40;
+        this.height = 40;
+}
+
+Rectangle.prototype .constructDiv = function() {
+    this.div = DomEdit.addRectangle(this);
+    return this;    
+}
+
+Circle.prototype = new GameObject();
+Circle.prototype.constructor = Circle;
+
+function Circle(id) {
+    GameObject.call(this, id, 'circle');
+    this.diameter = 40;
+}
+
+Circle.prototype.setDiameter = function(diameter) {
+    this.diameter = diameter;
+    DomEdit.setDimension(this.div, this.diameter || 0, this.diameter || 0);
+    return this; 
+}
+
+Circle.prototype.constructDiv = function() {
+    this.div = DomEdit.addCircle(this);
+    return this;    
+}
+
+
+

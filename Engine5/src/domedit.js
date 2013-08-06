@@ -105,7 +105,7 @@ var DomEdit = (function () {
 
     function circle(gameObject) {
         var el = createDiv(gameObject.id);
-        setDimension(el, gameObject.radius || 0, gameObject.radius || 0);
+        setDimension(el, gameObject.diameter || 0, gameObject.diameter || 0);
         setColor(el, gameObject.color || '#f0f');
         setPosition(el, gameObject.x || 0, gameObject.y || 0, gameObject.z || 0, gameObject.rotation || 0);
 
