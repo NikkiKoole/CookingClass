@@ -1,3 +1,4 @@
+/**Collision Module */
 var Collision = (function (){
     function getItemsAtPosition(x, y, gameObjects) {
         var collection = [];
@@ -10,27 +11,14 @@ var Collision = (function (){
     }
 
     function pointInObject(x, y, gameObject) {
-        return (isPointInsideRectangle(gameObject, x - (gameObject.width)/ 2, y - (gameObject.height)/ 2));
+        //for non webkit https://gist.github.com/Yaffle/1145197
+        var local = window.webkitConvertPointFromPageToNode(gameObject.div, new WebKitPoint(x, y));
+        //console.log(local, gameObject)
+        if (local.x < 0 || local.x >  gameObject.width) return false;
+        if (local.y < 0 || local.y > gameObject.height) return false;
+        return true;
     }
 
-    function isPointInsideRectangle(rectangle, x, y) {
-        var c = Math.cos(-rectangle.rotation * Math.PI / 180);
-        var s = Math.sin(-rectangle.rotation * Math.PI / 180);
-
-        //rotate the point
-        var rotatedX = rectangle.x + c * (x - rectangle.x) - s * (y - rectangle.y);
-        var rotatedY = rectangle.y + s * (x - rectangle.x) + c * (y - rectangle.y);
-
-        //bounds
-        var leftX = rectangle.x - (rectangle.width*rectangle.scaleX) / 2;
-        var rightX = rectangle.x + (rectangle.width*rectangle.scaleX) / 2;
-        var topY = rectangle.y - (rectangle.height*rectangle.scaleY) / 2;
-        var bottomY = rectangle.y + (rectangle.height*rectangle.scaleY) / 2;
-        
-        var test = (leftX <= rotatedX && rotatedX <= rightX && topY <= rotatedY && rotatedY <= bottomY);
-        console.log(leftX, topY, rightX,bottomY,'rotated',rotatedX,rotatedY, 'outcome:',test);
-        return test;
-    }
     return {
         itemsAtPosition:getItemsAtPosition    
     }

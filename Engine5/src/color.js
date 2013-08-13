@@ -1,8 +1,7 @@
-
 var Color = (function () {
 
-    var rndStartHue = Math.random(), // is nodig voor random colors, deze waarde word 1 keer gezet
-        goldenRatio = 0.618033988749895;  // en de golden ration word daar iedere keer bij opgeteld.(en modulo 1)
+    var rndStartHue = Math.random(), // startwaarde hue
+        goldenRatio = 0.618033988749895;  // rnd result  = (hue + ratio) % 1
 
     function hsvToRgb(h, s, v) {
         var r, g, b,
@@ -49,18 +48,18 @@ var Color = (function () {
     }
     function componentToHex(c) {
         var hex = Math.floor(c).toString(16);
-        return hex.length === 1 ? "0" + hex : hex;
+        return hex.length === 1 ? '0' + hex : hex;
     }
 
     function rgbToHex(r, g, b) {
-        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+        return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
     }
 
     function getRandom(saturation, brightness) {
         rndStartHue += goldenRatio;
         rndStartHue %= 1;
-        if (typeof saturation !== "number") {saturation = 0.5; }
-        if (typeof brightness !== "number") {brightness = 0.95; }
+        if (typeof saturation !== 'number') {saturation = 0.5; }
+        if (typeof brightness !== 'number') {brightness = 0.95; }
         var rgb = hsvToRgb(rndStartHue, saturation, brightness);
 
         return rgbToHex(rgb[0], rgb[1], rgb[2]);
@@ -112,7 +111,9 @@ var Color = (function () {
             hue = hsv[0],
             saturation = hsv[1],
             brightness = hsv[2],
-            outputArray = hsvToRgb(hue, adjustments.saturation || saturation, adjustments.brightness || brightness),
+            outputArray = hsvToRgb(hue,
+                                   adjustments.saturation || saturation,
+                                   adjustments.brightness || brightness),
             newColor = rgbToHex(outputArray[0], outputArray[1], outputArray[2]);
         return newColor;
     }

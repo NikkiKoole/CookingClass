@@ -1,3 +1,4 @@
+/**PubSub Module */
 var PubSub = (function () {
     return {
         enable: function (config, on) {

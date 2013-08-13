@@ -1,3 +1,4 @@
+/**Rand Module */
 var Rand = (function () {
     function randomNumber(min, max) {
         if (arguments.length === 0) {
@@ -13,7 +14,7 @@ var Rand = (function () {
                 var small = Math.min(min, max),
                 large = Math.max(min, max),
                 range = large - small;
-            
+
                 return ((Math.random() * range) + small);
             }
         }

@@ -1,10 +1,22 @@
+/**TweenBoss Module */
 var TweenBoss = (function () {
 
+    function PropCheck(args) {
+        this.args = args;
+        this.hasOneOfThese = function(batch) {
+            for (var i = 0; i < batch.length; i += 1) {
+                if (this.args.hasOwnProperty(batch[i])) {
+                    return true;
+                }
+            }
+        };
+    }
+
     function getProperties(gameObject, args) {
-        var properties = [];
-            
-          
-        if (args.hasOwnProperty('x') || args.hasOwnProperty('y') || args.hasOwnProperty('z') || args.hasOwnProperty('rotation') || args.hasOwnProperty('scaleX') || args.hasOwnProperty('scaleY')) {
+        var properties = [],
+            check = new PropCheck(args);
+
+        if (check.hasOneOfThese(['x', 'y', 'z', 'rotation', 'scaleX', 'scaleY'])) {
             properties.push('-webkit-transform');
         }
         if (args.hasOwnProperty('color')) {
@@ -74,64 +86,70 @@ var TweenBoss = (function () {
 
     function argTester(gameObject, args) {
         var g = gameObject;
-        if ((args.color && args.color !== g.color) ||
-            (typeof args.x !== 'undefined' && args.x !== g.x) || 
-            (typeof args.y !== 'undefined' && args.y !== g.y) || 
-            (typeof args.z !== 'undefined' && args.z !== g.z) ||
-            (typeof args.rotation !== 'undefined' && args.rotation !== g.rotation) || 
-            (typeof args.scaleX !== 'undefined' && args.scaleX !== g.scaleX) ||
-            (typeof args.scaleY !== 'undefined' && args.scaleY !== g.scaleY)) {
-                return true;
+        var expected = ['color', 'x', 'y', 'z', 'rotation', 'scaleX', 'scaleY', 'opacity'];
+        for (var i = 0; i < expected.length; i += 1) {
+            var t = expected[i];
+            return propNotUndefinedAndNotEqual(args, t, g);
         }
         return false;
     }
 
+    function propNotUndefinedAndNotEqual(args, p,  other) {
+        if (typeof args[p] !== 'undefined' && args[p] !== other[p]) {
+            return true;
+        }
+    return false;
+    }
+
 
     function execute(gameObject, duration, args) {
-        //data object is nice, maar ik moet ook nog alle argumenten interpreteren, en de div op de juiste manier
-        //veranderen (setPosition, setColor) etc.
-
         var dto = toDataObject(gameObject, duration, args);
+        var div = gameObject.div;
 
         function standardOnComplete() {
-            gameObject.div.style['WebkitTransition'] = null;
+            div.style['WebkitTransition'] = null;
+            div.style['-webkit-transition'] = null;
             if (dto.onComplete) {
                 dto.onComplete.call(gameObject, dto.onCompleteArgs);
-                gameObject.div.removeEventListener( 'webkitTransitionEnd', standardOnComplete, false);
+                div.removeEventListener('webkitTransitionEnd', this, false);
             }
         }
 
         if (argTester(gameObject, args)) {
-            //console.log(gameObject.div.style['WebkitTransition'])
-            gameObject.div.addEventListener( 'webkitTransitionEnd', standardOnComplete, false);
+            div.addEventListener('webkitTransitionEnd', this, false);
         } else {
-            standardOnComplete(); // if you don't need to tween, because the values aren't different, the cleanup & onComplete will still be called.        
+            standardOnComplete();
         }
         
-        //console.log(dto.property,dto.duration,dto.delay,dto.ease);
-
-        gameObject.div.style['-webkit-transition-property'] = dto.property;
-        gameObject.div.style['-webkit-transition-duration'] = dto.duration;
-        gameObject.div.style['-webkit-transition-delay'] = dto.delay;
-        gameObject.div.style['-webkit-transition-timing-function'] = dto.ease;
-        
+        div.style['-webkit-transition-property'] = dto.property;
+        div.style['-webkit-transition-duration'] = dto.duration;
+        div.style['-webkit-transition-delay'] = dto.delay;
+        div.style['-webkit-transition-timing-function'] = dto.ease;
 
         if (dto.property.indexOf('-webkit-transform') > -1) {
-            gameObject.setTransform(args.x, args.y, args.z, args.rotation, args.scaleX, args.scaleY);
+            var transform = {
+                'x': args.x,
+                'y': args.y,
+                'z': args.z,
+                'rotation': args.rotation,
+                'scaleX': args.scaleX,
+                'scaleY': args.scaleY
+            };
+            gameObject.setTransform(transform);
+        }
+        
+        if (dto.property.indexOf('opacity') > -1) {
+            gameObject.setOpacity(args.opacity);
         }
         if (dto.property.indexOf('background-color') > -1) {
             gameObject.setColor(args.color);
         }
         if (dto.property.indexOf('border-bottom-color') > -1) {
-            gameObject.div.style['border-bottom-color'] = args.color;
+            div.style['border-bottom-color'] = args.color;
         }
-        
-        
-        gameObject.div.offsetWidth;//hack om een reflow te forceren, zodat een tween altijd start.
+
+        div.offsetWidth;//forceer CSS reflow.
     }
-
-    
-
 
     return {
         getProperties: getProperties,
@@ -139,4 +157,3 @@ var TweenBoss = (function () {
         executeTween: execute
     };
 }());
-

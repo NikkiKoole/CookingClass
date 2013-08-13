@@ -1,8 +1,9 @@
+/**DomEdit Module */
 var DomEdit = (function () {
     function createDiv(id) {
-        var div = document.createElement("div");
+        var div = document.createElement('div');
         div.id = id;
-        div.style.position = "absolute";
+        div.style.position = 'absolute';
         return div;
     }
 
@@ -14,18 +15,27 @@ var DomEdit = (function () {
     }
 
     function setDimension(el, w, h) {
-        el.style.width = w + "px";
-        el.style.height = h + "px";
+        el.style.width = w + 'px';
+        el.style.height = h + 'px';
     }
 
-    
-    function setPosition(el, x, y, z, rotation, scaleX, scaleY) {
+    function setTransform(el, x, y, z, rotation, scaleX, scaleY) {
         el.style.zIndex = z;
         if (scaleX && scaleY) {
             el.style['-webkit-transform'] = 'translate(' + x + 'px' + ',' + y + 'px' + ') rotate(' + rotation + 'deg) scale(' + scaleX + ',' + scaleY + ')';
         } else {
             el.style['-webkit-transform'] = 'translate(' + x + 'px' + ',' + y + 'px' + ') rotate(' + rotation + 'deg)';
         }
+    }
+
+    function getTransformMatrix(el) {
+        var style = window.getComputedStyle(el);
+        var tr = style.getPropertyValue("-webkit-transform") ||
+             style.getPropertyValue("-moz-transform") ||
+             style.getPropertyValue("-ms-transform") ||
+             style.getPropertyValue("-o-transform") ||
+             style.getPropertyValue("transform");
+        return tr;
     }
 
     function setColor(el, color) {
@@ -47,7 +57,7 @@ var DomEdit = (function () {
         var el = createDiv(gameObject.id);
         setDimension(el, (gameObject.width || 0), (gameObject.height || 0));
         setColor(el, gameObject.color || '#ffff00');
-        setPosition(el, gameObject.x, gameObject.y, gameObject.z, gameObject.rotation);
+        setTransform(el, gameObject.x, gameObject.y, gameObject.z, gameObject.rotation);
         appendChild(el);
         return el;
     }
@@ -63,7 +73,7 @@ var DomEdit = (function () {
         setDimension(el, l.lineLength, (gameObject.width || 1));
         setColor(el, gameObject.color || '#00ff00');
         el.style['-webkit-transform-origin'] = '0 100%';
-        setPosition(el, x1, y1, gameObject.z || 0, l.rotation, 1, 1);
+        setTransform(el, x1, y1, gameObject.z || 0, l.rotation, 1, 1);
     }
 
 
@@ -92,7 +102,7 @@ var DomEdit = (function () {
     function triangle(gameObject) {
         var el = createDiv(gameObject.id);
         setDimension(el, gameObject.width || 0, gameObject.height || 0);
-        setPosition(el, gameObject.x || 0, gameObject.y || 0, gameObject.z || 0, gameObject.rotation || 0);
+        setTransform(el, gameObject.x || 0, gameObject.y || 0, gameObject.z || 0, gameObject.rotation || 0);
 
         el.style['border-left'] = (gameObject.left || 0) + 'px solid transparent';
         el.style['border-right'] = (gameObject.right || 0) + 'px solid transparent';
@@ -107,7 +117,7 @@ var DomEdit = (function () {
         var el = createDiv(gameObject.id);
         setDimension(el, gameObject.diameter || 0, gameObject.diameter || 0);
         setColor(el, gameObject.color || '#f0f');
-        setPosition(el, gameObject.x || 0, gameObject.y || 0, gameObject.z || 0, gameObject.rotation || 0);
+        setTransform(el, gameObject.x || 0, gameObject.y || 0, gameObject.z || 0, gameObject.rotation || 0);
 
         el.style['-webkit-border-radius'] = '50%';
         appendChild(el);
@@ -123,7 +133,7 @@ var DomEdit = (function () {
         var el = createDiv(gameObject.id);
         setDimension(el, gameObject.width || 0, gameObject.height || 0);
         setColor(el, gameObject.color || '#ffff00');
-        setPosition(el, gameObject.x, gameObject.y, gameObject.z, gameObject.rotation);
+        setTransform(el, gameObject.x, gameObject.y, gameObject.z, gameObject.rotation);
         el.style['-webkit-border-radius'] = (gameObject.rounded || 0) + 'px';
         appendChild(el);
         return el;
@@ -134,7 +144,6 @@ var DomEdit = (function () {
         appendChild(el);
         return el;
     }
-    
 
     return {
         addRectangle: rect,
@@ -143,15 +152,16 @@ var DomEdit = (function () {
         addCircle: circle,
         addRounded: roundedRect,
         addGroup: group,
-        setPosition: setPosition,
+        setTransform: setTransform,
         setColor: setColor,
         updateLine: updateLine,
         setDimension: setDimension,
         setBoxShadow: setBoxShadow,
         setOpacity: setOpacity,
         setGradient: setGradient,
-        removeObject:removeObject,
-        appendChildTo:appendChildTo
+        removeObject: removeObject,
+        appendChildTo: appendChildTo,
+        getMatrix: getTransformMatrix
     };
 
 }());

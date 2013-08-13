@@ -20,37 +20,59 @@ function onItemClicked(a, b, c) {
     console.log(a,b,c);
 }
 
+
+
+function onMouseMoveOverScreen(e) {
+    //console.log(e.pageX, e.pageY)
+    var colliding = Collision.itemsAtPosition(e.pageX, e.pageY,GameWorld.getAllItems());
+    if (colliding.length>0) {
+        console.log(colliding);
+    } else {
+        //console.log('none');
+    }    
+    //if (Collision.getItemsAtPosition(e.pageX, e.pageY))
+}
+function onMouseDownOverScreen(e) {
+    //console.log('down recognized');
+    //check if you have clicked a button;
+    //console.log(e.pageX, e.pageY, GameWorld.getAllItems());
+    //Collision.itemsAtPosition(e.pageX, e.pageY, GameWorld.getAllItems());
+}
+function onMouseUpOverScreen(e) {
+    activeTransformHelperButton = null;
+}
+
+ var group1;// = GameWorld.createObject('group').setDimension(200,200).setColor('#00f');
+    var group2;// = GameWorld.createObject('group').setDimension(100,100).setColor('#0f0');
+    var rect;// = Ga
+
 function entry() {
 
     
-    var container= document.getElementById('container'); 
+    var container = document.getElementById('container'); 
     if (container) {
-        container.style.width='800px';
-        container.style.height='600px';
+        container.style.width = window.innerWidth + 'px';//'800px';
+        container.style.height = window.innerHeight + 'px';//'600px';
+        container.style['-webkit-user-select']= 'none';
+        container.style.position='absolute';
+        container.style.top='0';
+        container.style.left = '0'
     }
 
-    var dotCount = 14;
-
-    var lines = [];
-    var dots = [];
-    for (var i=0; i< dotCount; i+=1) {
-        var r = GameWorld.createObject('circle').setPosition(i*200,Rand.nr(0,200)).setDiameter(40).setZ(3);
-        //r.tweenTo(6, {scaleX:2, scaleY:2} )        
-        dots.push(r)
-    }
-    var radius = 20;
-    for (var i=0; i< dotCount-1; i+=1) {
- 
-        lines.push(GameWorld.createObject('line').from(dots[i].x+radius, dots[i].y+radius).to(dots[i+1].x+radius, dots[i+1].y+radius).setColor('#000'))
-    }
+    container.onmousemove = onMouseMoveOverScreen;
+    container.onmousedown = onMouseDownOverScreen;
+    container.onmouseup = onMouseUpOverScreen;
 
 
-    container.addEventListener('click', function(){
-        for (var i=0; i< dotCount; i+=1) {
-            dots[i].tweenTo(4, {x:Rand.nr(800), y:Rand.nr(300)})
-        }
-    }, true);
+    //add a rectangle a blue group and a green group
+    group1 = GameWorld.createObject('group').setDimension(200,200).setColor('#00f');
+    group2 = GameWorld.createObject('group').setDimension(100,100).setColor('#0f0');
+    rect = GameWorld.createObject('rectangle');
 
+    group1.addObject(group2);
+    group2.addObject(rect);
+
+    group1.setPosition(100,100);
 
     var time;
     function draw() {
@@ -59,21 +81,14 @@ function entry() {
             dt = now - (time || now);
      
         time = now;
-
-        for (var i=0; i< dotCount-1; i+=1) {
-            var line = lines[i];
-            line.from(dots[i].x, dots[i].y).to(dots[i+1].x, dots[i+1].y);
-        }
-
+        //if (Collision.itemsAtPosition)
     }
     draw();
 
 
-            
-
 
 }
 
-//entry();
+entry();
 
 

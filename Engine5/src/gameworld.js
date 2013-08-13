@@ -1,3 +1,4 @@
+/**Gameworld Module */
 var GameWorld = (function () {
     var gameObjects = [];
 
@@ -5,7 +6,7 @@ var GameWorld = (function () {
         var i;
         for (i = 0; i < gameObjects.length; i += 1) {
             if (id === gameObjects[i].id) {
-                throw (Error("Wrong Id"));
+                throw (Error('Wrong Id'));
             }
         }
         return true;
@@ -26,7 +27,7 @@ var GameWorld = (function () {
             i;
         for (i = 0; i < gameObjects.length; i += 1) {
             if (id === gameObjects[i].id) {
-                DomEdit.removeObject(id);                
+                DomEdit.removeObject(id);
                 index = i;
             }
         }
@@ -50,11 +51,13 @@ var GameWorld = (function () {
         if (gameObject) {
             gameObjects.push(gameObject);
             gameObject.constructDiv();
+            //gameObject.div = DomEdit.addGameObject(gameObject)
         }
         return gameObject;
     }
 
     return {
+        getAllItems: function() {return gameObjects;},
         createObject: createObject,
         getObject: getObject,
         deleteObject: deleteObject,

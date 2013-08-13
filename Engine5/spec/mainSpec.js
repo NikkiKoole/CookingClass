@@ -39,6 +39,21 @@ describe("A Gameworld", function() {
 
     describe("Can Create Read Update & Delete GameObjects", function() {
         describe("Create", function() {
+            it("should generate ID's correctly", function() {
+                GameObjectFactory.reset();
+                var g1 = GameWorld.createObject('rectangle');
+                var g2 = GameWorld.createObject('group');
+                var g3 = GameWorld.createObject('line');
+                var g4 = GameWorld.createObject('rounded');
+                var g5 = GameWorld.createObject('circle');
+                var g6 = GameWorld.createObject('triangle');
+                expect(g1.id === 'GIDrectangle1').toBeTruthy();
+                expect(g2.id === 'GIDgroup2').toBeTruthy();
+                expect(g3.id === 'GIDline3').toBeTruthy();
+                expect(g4.id === 'GIDrounded4').toBeTruthy();
+                expect(g5.id === 'GIDcircle5').toBeTruthy();
+                expect(g6.id === 'GIDtriangle6').toBeTruthy(); 
+            });
             it("can create an object using: createObject('rectangle') ", function() {
                 var g = GameWorld.createObject('rectangle');            
                 expect(g).toBeTruthy();
@@ -72,6 +87,7 @@ describe("A Gameworld", function() {
                 var g1 = GameWorld.createObject('rectangle', 'myID');
                 expect(function(){ GameWorld.createObject('rectangle', 'myID');}).toThrow(new Error("Wrong Id"));
             });
+            
             it("should throw an error if you try and create a GameObject with an unknown/undefined type", function() {
                 expect(function(){GameWorld.createObject('geengoedtype')}).toThrow(new Error("Wrong Type"));
                 expect(function(){GameWorld.createObject()}).toThrow(new Error("Wrong Type"));
